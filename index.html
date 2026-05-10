@@ -2,7 +2,7 @@
 <html lang="hi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>गुब्बारे फोड़ो! 🎈</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Noto+Sans+Devanagari:wght@400;700;900&family=Nunito:wght@400;700;900&display=swap');
@@ -13,14 +13,31 @@
     --bg3: #24243e;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+  }
+
+  html {
+    height: 100%;
+    overflow: hidden;
+    touch-action: manipulation;
+  }
 
   body {
     min-height: 100vh;
+    height: 100%;
     background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
     overflow: hidden;
     font-family: 'Noto Sans Devanagari', 'Nunito', sans-serif;
     cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E📍%3C/text%3E%3C/svg%3E"), auto;
+    position: relative;
+    -webkit-text-size-adjust: 100%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
   }
 
   h1 {
@@ -64,6 +81,7 @@
     animation: floatUp var(--dur) var(--float-ease) forwards;
     z-index: 5;
     user-select: none;
+    touch-action: manipulation;
     animation-timing-function: var(--ease);
   }
 
@@ -75,6 +93,7 @@
     box-shadow: inset var(--shadow-x) var(--shadow-y) 20px rgba(0,0,0,0.25), 0 var(--outer-shadow) 30px rgba(0,0,0,0.3);
     position: relative;
     transition: transform 0.1s;
+    touch-action: manipulation;
   }
   .balloon-body::after {
     content: '';
@@ -184,6 +203,7 @@
     pointer-events: none;
     transition: opacity 0.4s;
     backdrop-filter: blur(12px);
+    touch-action: none;
   }
 
   #lightbox.active {
@@ -210,6 +230,7 @@
     transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     font-family: 'Noto Sans Devanagari', sans-serif;
     position: relative;
+    touch-action: manipulation;
   }
 
   #lightbox.active #lightbox-inner {
@@ -226,6 +247,7 @@
     box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     border: 4px solid rgba(255,255,255,0.2);
     animation: imagePop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    touch-action: none;
   }
   
   @keyframes imagePop {
@@ -262,8 +284,10 @@
     box-shadow: 0 6px 25px rgba(168,85,247,0.6);
     transition: all 0.2s;
     letter-spacing: 1px;
+    touch-action: manipulation;
   }
-  #lightbox-close:hover {
+  #lightbox-close:hover,
+  #lightbox-close:active {
     transform: translateY(-2px) scale(1.05);
     box-shadow: 0 8px 35px rgba(168,85,247,0.8);
   }
@@ -341,7 +365,7 @@
   let activeBalloons = [];
   const MAX_BALLOONS = 10;
   
-  // 🎲 ULTRA-VARIABLE SYSTEM (keeping all previous randomization)
+  // 🎲 ULTRA-VARIABLE SYSTEM
   let recentlyUsed = new Set();
   let randomizationCounter = 0;
   let globalSeed = Date.now();
@@ -461,6 +485,7 @@
     el.innerHTML = `<div class="balloon-body"><span class="balloon-emoji">${data.emoji}</span></div><div class="balloon-knot"></div><div class="balloon-string"></div>`;
 
     el.addEventListener('click', e => popBalloon(e, el, data, vars));
+    el.addEventListener('touchstart', e => popBalloon(e, el, data, vars), { passive: true });
     document.body.appendChild(el);
     activeBalloons.push(el);
 
@@ -477,6 +502,8 @@
 
   function popBalloon(e, el, data, vars) {
     e.stopPropagation();
+    e.preventDefault();
+    
     const rect = el.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height * 0.4;
@@ -548,7 +575,9 @@
   }
 
   lbClose.addEventListener('click', closeLightbox);
+  lbClose.addEventListener('touchstart', closeLightbox, { passive: true });
   lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  lightbox.addEventListener('touchstart', e => { if (e.target === lightbox) closeLightbox(); }, { passive: true });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 </script>
 </body>
