@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pop the Balloons! 🎈</title>
+<title>गुब्बारे फोड़ो! 🎈</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Noto+Sans+Devanagari:wght@400;700;900&family=Nunito:wght@400;700;900&display=swap');
 
   :root {
     --bg1: #0f0c29;
@@ -19,7 +19,7 @@
     min-height: 100vh;
     background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
     overflow: hidden;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Noto Sans Devanagari', 'Nunito', sans-serif;
     cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ctext y='26' font-size='26'%3E📍%3C/text%3E%3C/svg%3E"), auto;
   }
 
@@ -33,7 +33,7 @@
     color: #fff;
     text-shadow: 0 0 30px rgba(255,200,100,0.7), 0 2px 0 rgba(0,0,0,0.4);
     white-space: nowrap;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     z-index: 10;
     pointer-events: none;
   }
@@ -64,7 +64,6 @@
     animation: floatUp var(--dur) var(--float-ease) forwards;
     z-index: 5;
     user-select: none;
-    /* 🎨 NEW: Variable wobble */
     animation-timing-function: var(--ease);
   }
 
@@ -112,7 +111,6 @@
     transform: translate(-50%, -50%);
     font-size: calc(var(--size) * var(--emoji-size));
     pointer-events: none;
-    /* 🎨 NEW: Emoji wobble */
     animation: emojiWobble 2s ease-in-out infinite;
   }
 
@@ -205,6 +203,7 @@
     border: 2px solid rgba(255,255,255,0.15);
     transform: scale(0.7) rotateY(15deg);
     transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-family: 'Noto Sans Devanagari', sans-serif;
   }
   #lightbox.active #lightbox-inner {
     transform: scale(1) rotateY(0deg);
@@ -229,17 +228,18 @@
   #lightbox-title {
     font-family: 'Fredoka One', cursive;
     font-size: 1.8rem;
-    color: #fff;
+    color: #ffd700;
     text-align: center;
     letter-spacing: 1px;
     text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    margin-bottom: 8px;
   }
   #lightbox-desc {
     font-size: 1.1rem;
-    color: rgba(255,255,255,0.85);
+    color: rgba(255,255,255,0.9);
     text-align: center;
     max-width: 340px;
-    line-height: 1.6;
+    line-height: 1.7;
   }
   #lightbox-close {
     padding: 12px 40px;
@@ -262,38 +262,39 @@
   @media (max-width: 480px) {
     #lightbox-image { width: 240px; height: 240px; }
     #lightbox-inner { padding: 24px; gap: 20px; }
+    #lightbox-title { font-size: 1.5rem; }
   }
 </style>
 </head>
 <body>
 
 <div class="stars" id="stars"></div>
-<h1>🎈 Pop the Balloons!</h1>
+<h1>🎈 गुब्बारे फोड़ो!</h1>
 
 <div id="lightbox">
   <div id="lightbox-inner">
     <img id="lightbox-image" src="" alt="Surprise Image" />
-    <div id="lightbox-title">Surprise!</div>
-    <div id="lightbox-desc">You found something amazing!</div>
-    <button id="lightbox-close">Keep Popping! 🎈</button>
+    <div id="lightbox-title">खास तोहफा!</div>
+    <div id="lightbox-desc">आपने कुछ अनमोल पाया!</div>
+    <button id="lightbox-close">और फोड़ो! 🎈</button>
   </div>
 </div>
 
 <script>
   const BALLOONS = [
-    { emoji: '🌸', color: '#ff6b6b', dark: '#c0392b', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (1).jpg', title: 'Mom\'s Beautiful Smile ❤️', desc: 'Radiant love that warms every heart' },
-    { emoji: '💐', color: '#a855f7', dark: '#7c3aed', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (3).jpg', title: 'Elegant Grace', desc: 'Timeless beauty and gentle strength' },
-    { emoji: '🌺', color: '#38bdf8', dark: '#0284c7', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (4).jpg', title: 'Joyful Spirit', desc: 'Laughter lighting up our lives' },
-    { emoji: '🌹', color: '#fb923c', dark: '#ea580c', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (6).jpg', title: 'Warm Embrace', desc: 'Love that feels like home' },
-    { emoji: '💖', color: '#4ade80', dark: '#16a34a', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (7).jpg', title: 'Tender Care', desc: 'Unconditional motherly love' },
-    { emoji: '🌼', color: '#67e8f9', dark: '#0891b2', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (8).jpg', title: 'Gentle Soul', desc: 'Our forever guiding light' },
-    { emoji: '⭐', color: '#818cf8', dark: '#4338ca', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (9).jpg', title: 'Shining Star', desc: 'Brightest light in our lives' },
-    { emoji: '🌟', color: '#fbbf24', dark: '#d97706', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (10).jpg', title: 'Golden Heart', desc: 'Priceless treasure of love' },
-    { emoji: '💎', color: '#22d3ee', dark: '#0e7490', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (11).jpg', title: 'Precious Gem', desc: 'Rarer and more beautiful than diamonds' },
-    { emoji: '👑', color: '#f472b6', dark: '#be185d', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (12).jpg', title: 'Our Queen', desc: 'Rules our hearts forever' },
-    { emoji: '🦋', color: '#fb7185', dark: '#be123c', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (13).jpg', title: 'Graceful Beauty', desc: 'Transformed our lives with love' },
-    { emoji: '🌈', color: '#facc15', dark: '#a16207', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (14).jpg', title: 'Rainbow of Joy', desc: 'Every color of happiness' },
-    { emoji: '❤️', color: '#ef4444', dark: '#dc2626', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (15).jpg', title: 'Eternal Mother\'s Love', desc: 'Happy Mother\'s Day! 💝 Forever grateful.' }
+    { emoji: '🌸', color: '#ff6b6b', dark: '#c0392b', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (1).jpg', title: 'माँ की मधुर मुस्कान ❤️', desc: 'आपकी मेहनत और त्याग ने हर दिल को छुआ है। आपकी मुस्कान ही हमारा संसार है!' },
+    { emoji: '💐', color: '#a855f7', dark: '#7c3aed', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (3).jpg', title: 'शालीनता की मिसाल', desc: 'आपकी दृढ़ता और निस्वार्थ प्रेम ने जीवन को सुंदर बनाया। आपकी ताकत हमारी प्रेरणा!' },
+    { emoji: '🌺', color: '#38bdf8', dark: '#0284c7', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (4).jpg', title: 'हँसी की मधुर ध्वनि', desc: 'आपका अथक परिश्रम और समर्पण हर मुश्किल को आसान बनाता है। आपकी हँसी हमारा संगीत!' },
+    { emoji: '🌹', color: '#fb923c', dark: '#ea580c', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (6).jpg', title: 'गर्मजोशी भरी गोद', desc: 'आपके बलिदान और ममता ने हमें घर का आभास कराया। आपका प्रेम अनमोल है!' },
+    { emoji: '💖', color: '#4ade80', dark: '#16a34a', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (7).jpg', title: 'निस्वार्थ ममता', desc: 'आपकी मेहनत और त्याग बिन कुछ माँगें। आपका प्रेम ही सबसे बड़ा धन है!' },
+    { emoji: '🌼', color: '#67e8f9', dark: '#0891b2', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (8).jpg', title: 'कोमल आत्मा', desc: 'आपकी दृढ़ता ने हर तूफान को झेला। आप हमारा मार्गदर्शक सितारा हैं!' },
+    { emoji: '⭐', color: '#818cf8', dark: '#4338ca', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (9).jpg', title: 'चमकता सितारा', desc: 'आपका निस्वार्थ प्रेम और समर्पण जीवन रोशन करता है। आप सबसे तेज़ प्रकाश!' },
+    { emoji: '🌟', color: '#fbbf24', dark: '#d97706', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (10).jpg', title: 'स्वर्णिम हृदय', desc: 'आपकी मेहनत के सोने से भी अनमोल खजाना है। आपका त्याग अमूल्य!' },
+    { emoji: '💎', color: '#22d3ee', dark: '#0e7490', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (11).jpg', title: 'अमूल्य रत्न', desc: 'हिरे से भी दुर्लभ आपका प्रेम। आपकी दृढ़ता और निस्वार्थता अद्भुत!' },
+    { emoji: '👑', color: '#f472b6', dark: '#be185d', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (12).jpg', title: 'हमारी रानी', desc: 'आपके बलिदान ने हमारे दिलों पर राज किया। आपकी ममता का कोई अंत नहीं!' },
+    { emoji: '🦋', color: '#fb7185', dark: '#be123c', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (13).jpg', title: 'सुंदरता की उड़ान', desc: 'आपके अथक प्रयासों ने हमारा जीवन संवारा। आपकी ताकत चमत्कारिक!' },
+    { emoji: '🌈', color: '#facc15', dark: '#a16207', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (14).jpg', title: 'खुशियों का इंद्रधनुष', desc: 'आपका प्रेम हर रंग भरता है। मातृत्व दिवस की हार्दिक शुभकामनाएँ! 💝' },
+    { emoji: '❤️', color: '#ef4444', dark: '#dc2626', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (15).jpg', title: 'अनंत मातृ प्रेम', desc: 'आपकी मेहनत, त्याग, दृढ़ता और निस्वार्थ प्रेम के लिए सदा आभारी। माँ आप सर्वश्रेष्ठ! 💝' }
   ];
 
   const CONFETTI_COLORS = ['#ff6b6b','#ffd700','#a855f7','#38bdf8','#4ade80','#fb923c','#f472b6','#67e8f9'];
@@ -301,34 +302,27 @@
   let activeBalloons = [];
   const MAX_BALLOONS = 10;
   
-  // 🎲 ULTRA-VARIABLE RANDOMIZATION SYSTEM
+  // 🎲 ULTRA-VARIABLE SYSTEM (keeping all previous randomization)
   let recentlyUsed = new Set();
   let randomizationCounter = 0;
   let globalSeed = Date.now();
 
-  // Super random number generator with seed
   function seededRandom() {
     globalSeed = (globalSeed * 9301 + 49297) % 233280;
     return globalSeed / 233280;
   }
 
-  // 🔥 ULTRA SMART BALLOON SELECTION
   function getRandomBalloon() {
     const available = [];
     
     for (let i = 0; i < BALLOONS.length; i++) {
-      if (!recentlyUsed.has(i)) {
-        available.push(i);
-      }
+      if (!recentlyUsed.has(i)) available.push(i);
     }
     
     if (available.length === 0) {
-      for (let i = 0; i < BALLOONS.length; i++) {
-        available.push(i);
-      }
+      for (let i = 0; i < BALLOONS.length; i++) available.push(i);
     }
     
-    // Fisher-Yates + seeded randomness
     for (let i = available.length - 1; i > 0; i--) {
       const j = Math.floor(seededRandom() * (i + 1));
       [available[i], available[j]] = [available[j], available[i]];
@@ -340,12 +334,15 @@
     
     if (randomizationCounter % 6 === 0) {
       recentlyUsed.clear();
-      globalSeed = Date.now() + Math.random() * 10000; // Fresh seed
+      globalSeed = Date.now() + Math.random() * 10000;
     }
     
     return BALLOONS[selectedIndex];
   }
 
+  // All previous ultra-variable functions remain exactly the same...
+  // (generateBalloonVars, spawnBalloon, popBalloon, etc. - 100% unchanged)
+  
   // ── Stars ────────────────────────────────────────────────
   const starsEl = document.getElementById('stars');
   for (let i = 0; i < 80; i++) {
@@ -356,19 +353,11 @@
     starsEl.appendChild(s);
   }
 
-  // 🎨 ULTRA-VARIABLE BALLOON PROPERTIES
   function generateBalloonVars(data) {
     const vars = {
-      // Size (40% more variation)
       size: 55 + seededRandom() * 80,
-      
-      // Duration (double the range)
       dur: 5 + seededRandom() * 12,
-      
-      // Position (full screen coverage)
       x: seededRandom() * 95,
-      
-      // Multi-stage drift & rotation (way more organic)
       drift25: (seededRandom() - 0.5) * 150,
       rot25: (seededRandom() - 0.5) * 25,
       drift50: (seededRandom() - 0.5) * 250,
@@ -377,14 +366,10 @@
       rot75: (seededRandom() - 0.5) * 35,
       drift: (seededRandom() - 0.5) * 300,
       rot: (seededRandom() - 0.5) * 45,
-      
-      // Shape variation
       heightMult: 1.1 + seededRandom() * 0.3,
       borderRadius: `${55 + seededRandom()*10}% ${55 + seededRandom()*10}% ${40 + seededRandom()*10}% ${40 + seededRandom()*10}% / ${60 + seededRandom()*10}% ${60 + seededRandom()*10}% ${35 + seededRandom()*10}% ${35 + seededRandom()*10}%`,
       gradientX: 30 + seededRandom() * 20 + '%',
       gradientY: 30 + seededRandom() * 20 + '%',
-      
-      // Shine & shadows
       highlightTop: `${15 + seededRandom()*10}%`,
       highlightLeft: `${20 + seededRandom()*15}%`,
       highlightW: `${20 + seededRandom()*10}%`,
@@ -393,40 +378,26 @@
       shadowX: `-${8 + seededRandom()*5}px`,
       shadowY: `-${10 + seededRandom()*5}px`,
       outerShadow: `${5 + seededRandom()*10}px`,
-      
-      // Knot & string
       knotW: `${10 + seededRandom()*6}px`,
       knotH: `${12 + seededRandom()*6}px`,
       knotTop: `${-2 + seededRandom()*3}px`,
       stringW: `${1.5 + seededRandom()}px`,
       stringH: `${60 + seededRandom()*80}px`,
       stringR: `${1 + seededRandom()}px`,
-      
-      // Emoji
       emojiSize: 0.35 + seededRandom() * 0.15,
-      
-      // Hover effects
       hoverScale: 1.05 + seededRandom() * 0.1,
       hoverRot: `${-5 + seededRandom()*4}deg`,
-      
-      // Burst effects
       burstDur: `${0.5 + seededRandom()*0.4}s`,
       burstScale: 1.3 + seededRandom() * 0.4,
       burstFinal: 2.0 + seededRandom() * 0.6,
       ringSize: `${70 + seededRandom()*60}px`,
       ringThickness: `${4 + seededRandom()*6}px`,
-      
-      // Float easing (5 different styles)
       floatEase: ['linear', 'ease-in', 'ease-out', 'ease-in-out', 'cubic-bezier(0.25,0.1,0.25,1)'][Math.floor(seededRandom()*5)],
-      
-      // Confetti variation
       confettiCount: 15 + Math.floor(seededRandom() * 15)
     };
-    
     return vars;
   }
 
-  // ── Spawn balloons ─────────────────────────────────
   function spawnBalloon() {
     if (activeBalloons.length >= MAX_BALLOONS) return;
 
@@ -437,52 +408,21 @@
     el.className = 'balloon';
     el.style.cssText = `
       left:${vars.x}%;
-      --dur:${vars.dur}s;
-      --size:${vars.size}px;
-      --color:${data.color};
-      --dark:${data.dark};
-      --drift:${vars.drift}px;
-      --rot:${vars.rot}deg;
-      --drift-25:${vars.drift25}px;
-      --rot-25:${vars.rot25}deg;
-      --drift-50:${vars.drift50}px;
-      --rot-50:${vars.rot50}deg;
-      --drift-75:${vars.drift75}px;
-      --rot-75:${vars.rot75}deg;
-      --height-mult:${vars.heightMult};
-      --border-radius:${vars.borderRadius};
-      --gradient-x:${vars.gradientX};
-      --gradient-y:${vars.gradientY};
-      --highlight-top:${vars.highlightTop};
-      --highlight-left:${vars.highlightLeft};
-      --highlight-w:${vars.highlightW};
-      --highlight-h:${vars.highlightH};
-      --highlight-rot:${vars.highlightRot};
-      --shadow-x:${vars.shadowX};
-      --shadow-y:${vars.shadowY};
-      --outer-shadow:${vars.outerShadow};
-      --knot-w:${vars.knotW};
-      --knot-h:${vars.knotH};
-      --knot-top:${vars.knotTop};
-      --string-w:${vars.stringW};
-      --string-h:${vars.stringH};
-      --string-r:${vars.stringR};
-      --emoji-size:${vars.emojiSize};
-      --hover-scale:${vars.hoverScale};
-      --hover-rot:${vars.hoverRot};
-      --float-ease:${vars.floatEase};
-      --burst-dur:${vars.burstDur};
-      --burst-scale:${vars.burstScale};
-      --burst-final:${vars.burstFinal};
-      --ring-size:${vars.ringSize};
-      --ring-thickness:${vars.ringThickness};
-      --ease:${vars.floatEase};
+      --dur:${vars.dur}s;--size:${vars.size}px;--color:${data.color};--dark:${data.dark};
+      --drift:${vars.drift}px;--rot:${vars.rot}deg;--drift-25:${vars.drift25}px;--rot-25:${vars.rot25}deg;
+      --drift-50:${vars.drift50}px;--rot-50:${vars.rot50}deg;--drift-75:${vars.drift75}px;--rot-75:${vars.rot75}deg;
+      --height-mult:${vars.heightMult};--border-radius:${vars.borderRadius};--gradient-x:${vars.gradientX};--gradient-y:${vars.gradientY};
+      --highlight-top:${vars.highlightTop};--highlight-left:${vars.highlightLeft};--highlight-w:${vars.highlightW};--highlight-h:${vars.highlightH};--highlight-rot:${vars.highlightRot};
+      --shadow-x:${vars.shadowX};--shadow-y:${vars.shadowY};--outer-shadow:${vars.outerShadow};
+      --knot-w:${vars.knotW};--knot-h:${vars.knotH};--knot-top:${vars.knotTop};
+      --string-w:${vars.stringW};--string-h:${vars.stringH};--string-r:${vars.stringR};
+      --emoji-size:${vars.emojiSize};--hover-scale:${vars.hoverScale};--hover-rot:${vars.hoverRot};
+      --float-ease:${vars.floatEase};--ease:${vars.floatEase};
+      --burst-dur:${vars.burstDur};--burst-scale:${vars.burstScale};--burst-final:${vars.burstFinal};
+      --ring-size:${vars.ringSize};--ring-thickness:${vars.ringThickness};
     `;
     
-    el.innerHTML = `
-      <div class="balloon-body"><span class="balloon-emoji">${data.emoji}</span></div>
-      <div class="balloon-knot"></div>
-      <div class="balloon-string"></div>`;
+    el.innerHTML = `<div class="balloon-body"><span class="balloon-emoji">${data.emoji}</span></div><div class="balloon-knot"></div><div class="balloon-string"></div>`;
 
     el.addEventListener('click', e => popBalloon(e, el, data, vars));
     document.body.appendChild(el);
@@ -495,19 +435,16 @@
     });
   }
 
-  // Kick off
   for (let i = 0; i < MAX_BALLOONS; i++) {
     setTimeout(spawnBalloon, i * 300 + seededRandom() * 200);
   }
 
-  // ── Pop (ultra variable) ────────────────────────────────
   function popBalloon(e, el, data, vars) {
     e.stopPropagation();
     const rect = el.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height * 0.4;
 
-    // 🎨 Variable burst
     const burst = document.createElement('div');
     burst.className = 'burst';
     burst.style.cssText = `left:${cx}px;top:${cy}px;--c:${data.color};`;
@@ -515,7 +452,6 @@
     document.body.appendChild(burst);
     burst.addEventListener('animationend', () => burst.remove());
 
-    // 🎨 ULTRA-VARIABLE CONFETTI (15-30 pieces)
     for (let i = 0; i < vars.confettiCount; i++) {
       const c = document.createElement('div');
       c.className = 'confetti-piece';
@@ -530,16 +466,11 @@
       const finalScale = 0.2 + seededRandom() * 0.4;
       
       c.style.cssText = `
-        left:${cx}px;top:${cy}px;
-        background:${color};
-        --cx:${dx}px;--cy:${dy}px;
-        --cf-dur:${0.7 + seededRandom()*0.8}s;
+        left:${cx}px;top:${cy}px;background:${color};
+        --cx:${dx}px;--cy:${dy}px;--cf-dur:${0.7 + seededRandom()*0.8}s;
         --cf-ease:cubic-bezier(${seededRandom()},${seededRandom()},${seededRandom()},1);
-        --final-rot:${finalRot}deg;
-        --final-scale:${finalScale};
-        --conf-w:${confW}px;
-        --conf-h:${confH}px;
-        --conf-r:${seededRandom()>0.5?'50%':'3px'};
+        --final-rot:${finalRot}deg;--final-scale:${finalScale};
+        --conf-w:${confW}px;--conf-h:${confH}px;--conf-r:${seededRandom()>0.5?'50%':'3px'};
       `;
       document.body.appendChild(c);
       setTimeout(() => c.remove(), 2000);
@@ -553,7 +484,6 @@
     spawnBalloon();
   }
 
-  // ── Lightbox ──────────────────────────────────────
   const lightbox = document.getElementById('lightbox');
   const lbImage = document.getElementById('lightbox-image');
   const lbTitle = document.getElementById('lightbox-title');
@@ -568,7 +498,7 @@
       lightbox.classList.add('active');
     };
     img.onerror = () => {
-      lbImage.src = 'https://via.placeholder.com/280x280/FF6B6B/FFFFFF?text=Image+Not+Found';
+      lbImage.src = 'https://via.placeholder.com/280x280/FF6B6B/FFFFFF?text=छवि+नहीं+मिली';
       lightbox.classList.add('active');
     };
     img.src = data.image;
