@@ -38,20 +38,6 @@
     pointer-events: none;
   }
 
-  #score {
-    position: fixed;
-    top: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.2rem;
-    color: #ffd700;
-    text-shadow: 0 0 10px rgba(255,215,0,0.6);
-    z-index: 10;
-    pointer-events: none;
-    letter-spacing: 1px;
-  }
-
   /* Stars background */
   .stars {
     position: fixed;
@@ -283,7 +269,6 @@
 
 <div class="stars" id="stars"></div>
 <h1>🎈 Pop the Balloons!</h1>
-<div id="score">Popped: 0 🎉</div>
 
 <div id="lightbox">
   <div id="lightbox-inner">
@@ -317,7 +302,6 @@ const BALLOONS = [
 
   const CONFETTI_COLORS = ['#ff6b6b','#ffd700','#a855f7','#38bdf8','#4ade80','#fb923c','#f472b6','#67e8f9'];
 
-  let popped = 0;
   let activeBalloons = [];
   const MAX_BALLOONS = 10; // Maximum 10 balloons on screen
 
@@ -399,9 +383,6 @@ const BALLOONS = [
 
     el.remove();
     activeBalloons = activeBalloons.filter(b => b !== el);
-
-    popped++;
-    document.getElementById('score').textContent = `Popped: ${popped} 🎉`;
 
     showLightbox(data);
     
