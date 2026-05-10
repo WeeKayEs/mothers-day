@@ -417,14 +417,26 @@ const lbClose  = document.getElementById('lightbox-close');
 
 
 function showLightbox(data) {
-  console.log('Loading:', data.image);
-  lbImage.src = data.image;
-  lbImage.alt = data.title;
+  console.log('🖼️ Attempting to load:', data.image);
+  
+  // Test image first
+  const img = new Image();
+  img.onload = () => {
+    console.log('✅ Image LOADED OK!');
+    lbImage.src = data.image;
+    lightbox.classList.add('active');
+  };
+  img.onerror = () => {
+    console.error('❌ Image FAILED:', data.image);
+    lbImage.src = 'https://via.placeholder.com/280x280/FF6B6B/FFFFFF?text=Image+Not+Found';
+    lightbox.classList.add('active');
+  };
+  img.src = data.image;
+  
   lbTitle.textContent = data.title;
   lbDesc.textContent = data.desc;
-  lightbox.classList.add('active');
 }
-
+  
 function closeLightbox() {
   lightbox.classList.remove('active');
 }
