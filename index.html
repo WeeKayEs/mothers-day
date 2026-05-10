@@ -40,19 +40,43 @@
     touch-action: manipulation;
   }
 
-  h1 {
+  .heading-container {
     position: fixed;
     top: 24px;
     left: 50%;
     transform: translateX(-50%);
+    z-index: 10;
+    pointer-events: none;
+    text-align: center;
+  }
+
+  h1 {
     font-family: 'Fredoka One', cursive;
     font-size: clamp(1.6rem, 4vw, 2.8rem);
     color: #fff;
     text-shadow: 0 0 30px rgba(255,200,100,0.7), 0 2px 0 rgba(0,0,0,0.4);
     white-space: nowrap;
     letter-spacing: 1px;
-    z-index: 10;
-    pointer-events: none;
+    margin-bottom: 4px;
+  }
+
+  .mothers-day {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(1.2rem, 3vw, 2.2rem);
+    color: #ff6bcb;
+    text-shadow: 0 0 25px rgba(255,107,203,0.8), 0 2px 0 rgba(0,0,0,0.4);
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    from { 
+      text-shadow: 0 0 25px rgba(255,107,203,0.8), 0 2px 0 rgba(0,0,0,0.4);
+    }
+    to { 
+      text-shadow: 0 0 35px rgba(255,107,203,1), 0 0 45px rgba(255,107,203,0.6), 0 2px 0 rgba(0,0,0,0.4);
+    }
   }
 
   /* Stars background */
@@ -341,7 +365,10 @@
 <body>
 
 <div class="stars" id="stars"></div>
-<h1>🎈 गुब्बारे फोड़ो!</h1>
+<div class="heading-container">
+  <h1>🎈 गुब्बारे फोड़ो!</h1>
+  <div class="mothers-day">Happy Mother's Day</div>
+</div>
 
 <div id="lightbox">
   <div id="lightbox-inner">
