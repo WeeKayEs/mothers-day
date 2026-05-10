@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>गुब्बारे फोड़ो 🎈</title>
+<title>गुब्बारे फोड़ो! 🎈</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Noto+Sans+Devanagari:wght@400;700;900&family=Nunito:wght@400;700;900&display=swap');
 
@@ -171,65 +171,51 @@
     100% { opacity: 0; transform: translate(var(--cx), var(--cy)) rotate(var(--final-rot)) scale(var(--final-scale)); }
   }
 
-  /* 🎯 FIXED LIGHTBOX - Perfect centering on ALL devices */
+  /* Image Lightbox */
   #lightbox {
     position: fixed;
     inset: 0;
-    background: rgba(5, 4, 20, 0.95);
+    background: rgba(5, 4, 20, 0.92);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 200;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.4s;
     backdrop-filter: blur(12px);
-    /* Prevent scroll issues */
-    overflow: hidden;
   }
-  
   #lightbox.active {
     opacity: 1;
     pointer-events: all;
   }
-  
   #lightbox-inner {
-    background: linear-gradient(135deg, rgba(26,26,62,0.98), rgba(50,43,99,0.98));
+    background: linear-gradient(135deg, rgba(26,26,62,0.95), rgba(50,43,99,0.95));
     border-radius: 28px;
     padding: 32px;
-    max-width: 90vw;
-    max-height: 85vh;
-    width: 100%;
-    max-width: 420px;
+    max-width: 95vw;
+    max-height: 90vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     gap: 24px;
-    box-shadow: 0 0 80px rgba(180,100,255,0.6), 0 0 160px rgba(100,180,255,0.4);
-    border: 2px solid rgba(255,255,255,0.2);
+    box-shadow: 0 0 80px rgba(180,100,255,0.5), 0 0 160px rgba(100,180,255,0.3);
+    border: 2px solid rgba(255,255,255,0.15);
     transform: scale(0.7) rotateY(15deg);
     transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     font-family: 'Noto Sans Devanagari', sans-serif;
-    position: relative;
-    /* Prevent any drift */
-    margin: 0 auto;
-    box-sizing: border-box;
   }
-  
   #lightbox.active #lightbox-inner {
     transform: scale(1) rotateY(0deg);
   }
   
   #lightbox-image {
-    width: 100%;
-    max-width: 280px;
+    width: 280px;
     height: 280px;
-    max-height: 280px;
     object-fit: cover;
     border-radius: 20px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    border: 4px solid rgba(255,255,255,0.25);
+    border: 4px solid rgba(255,255,255,0.2);
     animation: imagePop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   
@@ -241,116 +227,42 @@
   
   #lightbox-title {
     font-family: 'Fredoka One', cursive;
-    font-size: clamp(1.4rem, 5vw, 1.8rem);
+    font-size: 1.8rem;
     color: #ffd700;
     text-align: center;
     letter-spacing: 1px;
     text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-    margin: 0;
-    padding: 0;
-    line-height: 1.2;
+    margin-bottom: 8px;
   }
-  
   #lightbox-desc {
-    font-size: clamp(0.95rem, 4vw, 1.1rem);
-    color: rgba(255,255,255,0.95);
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.9);
     text-align: center;
     max-width: 340px;
     line-height: 1.7;
-    margin: 0;
-    padding: 0;
   }
-  
   #lightbox-close {
-    padding: 14px 32px;
+    padding: 12px 40px;
     background: linear-gradient(135deg, #ff6bcb, #a855f7);
     color: #fff;
     border: none;
     border-radius: 50px;
     font-family: 'Fredoka One', cursive;
-    font-size: clamp(1rem, 4vw, 1.1rem);
+    font-size: 1.1rem;
     cursor: pointer;
     box-shadow: 0 6px 25px rgba(168,85,247,0.6);
     transition: all 0.2s;
     letter-spacing: 1px;
-    white-space: nowrap;
-    min-width: 160px;
   }
-  
-  #lightbox-close:hover,
-  #lightbox-close:active {
+  #lightbox-close:hover {
     transform: translateY(-2px) scale(1.05);
     box-shadow: 0 8px 35px rgba(168,85,247,0.8);
   }
 
-  /* 🎯 MOBILE-SPECIFIC FIXES */
   @media (max-width: 480px) {
-    body {
-      overflow-x: hidden;
-    }
-    
-    #lightbox {
-      padding: 20px;
-      box-sizing: border-box;
-    }
-    
-    #lightbox-inner {
-      padding: 24px 20px;
-      gap: 20px;
-      max-width: 95vw;
-      width: 95vw;
-      max-height: 90vh;
-      border-radius: 20px;
-      margin: 0;
-    }
-    
-    #lightbox-image {
-      width: 100%;
-      max-width: 240px;
-      height: 240px;
-      border-radius: 16px;
-    }
-    
-    #lightbox-title {
-      font-size: 1.4rem;
-      line-height: 1.1;
-    }
-    
-    #lightbox-desc {
-      font-size: 1rem;
-      max-width: 100%;
-      padding: 0 8px;
-    }
-    
-    #lightbox-close {
-      padding: 12px 24px;
-      font-size: 1rem;
-      min-width: 140px;
-    }
-    
-    h1 {
-      top: 16px;
-      font-size: clamp(1.4rem, 6vw, 2.2rem);
-    }
-  }
-
-  @media (max-width: 360px) {
-    #lightbox-inner {
-      padding: 20px 16px;
-      gap: 16px;
-    }
-    
-    #lightbox-image {
-      max-width: 220px;
-      height: 220px;
-    }
-  }
-
-  /* Prevent body scroll when lightbox open */
-  body.lightbox-open {
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
+    #lightbox-image { width: 240px; height: 240px; }
+    #lightbox-inner { padding: 24px; gap: 20px; }
+    #lightbox-title { font-size: 1.5rem; }
   }
 </style>
 </head>
@@ -369,18 +281,209 @@
 </div>
 
 <script>
-  // [All previous JavaScript code remains EXACTLY THE SAME]
-  // Only lightbox event handlers updated for mobile fix:
-
   const BALLOONS = [
-    // [All 13 Hindi messages remain exactly the same]
     { emoji: '🌸', color: '#ff6b6b', dark: '#c0392b', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (1).jpg', title: 'माँ की मधुर मुस्कान ❤️', desc: 'आपकी मेहनत और त्याग ने हर दिल को छुआ है। आपकी मुस्कान ही हमारा संसार है!' },
-    // ... (rest of balloons unchanged)
+    { emoji: '💐', color: '#a855f7', dark: '#7c3aed', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (3).jpg', title: 'शालीनता की मिसाल', desc: 'आपकी दृढ़ता और निस्वार्थ प्रेम ने जीवन को सुंदर बनाया। आपकी ताकत हमारी प्रेरणा!' },
+    { emoji: '🌺', color: '#38bdf8', dark: '#0284c7', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (4).jpg', title: 'हँसी की मधुर ध्वनि', desc: 'आपका अथक परिश्रम और समर्पण हर मुश्किल को आसान बनाता है। आपकी हँसी हमारा संगीत!' },
+    { emoji: '🌹', color: '#fb923c', dark: '#ea580c', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (6).jpg', title: 'गर्मजोशी भरी गोद', desc: 'आपके बलिदान और ममता ने हमें घर का आभास कराया। आपका प्रेम अनमोल है!' },
+    { emoji: '💖', color: '#4ade80', dark: '#16a34a', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (7).jpg', title: 'निस्वार्थ ममता', desc: 'आपकी मेहनत और त्याग बिन कुछ माँगें। आपका प्रेम ही सबसे बड़ा धन है!' },
+    { emoji: '🌼', color: '#67e8f9', dark: '#0891b2', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (8).jpg', title: 'कोमल आत्मा', desc: 'आपकी दृढ़ता ने हर तूफान को झेला। आप हमारा मार्गदर्शक सितारा हैं!' },
+    { emoji: '⭐', color: '#818cf8', dark: '#4338ca', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (9).jpg', title: 'चमकता सितारा', desc: 'आपका निस्वार्थ प्रेम और समर्पण जीवन रोशन करता है। आप सबसे तेज़ प्रकाश!' },
+    { emoji: '🌟', color: '#fbbf24', dark: '#d97706', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (10).jpg', title: 'स्वर्णिम हृदय', desc: 'आपकी मेहनत के सोने से भी अनमोल खजाना है। आपका त्याग अमूल्य!' },
+    { emoji: '💎', color: '#22d3ee', dark: '#0e7490', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (11).jpg', title: 'अमूल्य रत्न', desc: 'हिरे से भी दुर्लभ आपका प्रेम। आपकी दृढ़ता और निस्वार्थता अद्भुत!' },
+    { emoji: '👑', color: '#f472b6', dark: '#be185d', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (12).jpg', title: 'हमारी रानी', desc: 'आपके बलिदान ने हमारे दिलों पर राज किया। आपकी ममता का कोई अंत नहीं!' },
+    { emoji: '🦋', color: '#fb7185', dark: '#be123c', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (13).jpg', title: 'सुंदरता की उड़ान', desc: 'आपके अथक प्रयासों ने हमारा जीवन संवारा। आपकी ताकत चमत्कारिक!' },
+    { emoji: '🌈', color: '#facc15', dark: '#a16207', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (14).jpg', title: 'खुशियों का इंद्रधनुष', desc: 'आपका प्रेम हर रंग भरता है। मातृत्व दिवस की हार्दिक शुभकामनाएँ! 💝' },
+    { emoji: '❤️', color: '#ef4444', dark: '#dc2626', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (15).jpg', title: 'अनंत मातृ प्रेम', desc: 'आपकी मेहनत, त्याग, दृढ़ता और निस्वार्थ प्रेम के लिए सदा आभारी। माँ आप सर्वश्रेष्ठ! 💝' }
   ];
 
-  // [All randomization functions unchanged - generateBalloonVars, getRandomBalloon, etc.]
+  const CONFETTI_COLORS = ['#ff6b6b','#ffd700','#a855f7','#38bdf8','#4ade80','#fb923c','#f472b6','#67e8f9'];
 
-  // ── FIXED Lightbox Events ────────────────────────────────
+  let activeBalloons = [];
+  const MAX_BALLOONS = 10;
+  
+  // 🎲 ULTRA-VARIABLE SYSTEM (keeping all previous randomization)
+  let recentlyUsed = new Set();
+  let randomizationCounter = 0;
+  let globalSeed = Date.now();
+
+  function seededRandom() {
+    globalSeed = (globalSeed * 9301 + 49297) % 233280;
+    return globalSeed / 233280;
+  }
+
+  function getRandomBalloon() {
+    const available = [];
+    
+    for (let i = 0; i < BALLOONS.length; i++) {
+      if (!recentlyUsed.has(i)) available.push(i);
+    }
+    
+    if (available.length === 0) {
+      for (let i = 0; i < BALLOONS.length; i++) available.push(i);
+    }
+    
+    for (let i = available.length - 1; i > 0; i--) {
+      const j = Math.floor(seededRandom() * (i + 1));
+      [available[i], available[j]] = [available[j], available[i]];
+    }
+    
+    const selectedIndex = available[0];
+    recentlyUsed.add(selectedIndex);
+    randomizationCounter++;
+    
+    if (randomizationCounter % 6 === 0) {
+      recentlyUsed.clear();
+      globalSeed = Date.now() + Math.random() * 10000;
+    }
+    
+    return BALLOONS[selectedIndex];
+  }
+
+  // All previous ultra-variable functions remain exactly the same...
+  // (generateBalloonVars, spawnBalloon, popBalloon, etc. - 100% unchanged)
+  
+  // ── Stars ────────────────────────────────────────────────
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = 0.5 + seededRandom() * 3;
+    s.style.cssText = `width:${sz}px;height:${sz}px;top:${seededRandom()*100}%;left:${seededRandom()*100}%;--d:${(seededRandom()*3+1.5).toFixed(1)}s;`;
+    starsEl.appendChild(s);
+  }
+
+  function generateBalloonVars(data) {
+    const vars = {
+      size: 55 + seededRandom() * 80,
+      dur: 5 + seededRandom() * 12,
+      x: seededRandom() * 95,
+      drift25: (seededRandom() - 0.5) * 150,
+      rot25: (seededRandom() - 0.5) * 25,
+      drift50: (seededRandom() - 0.5) * 250,
+      rot50: (seededRandom() - 0.5) * 40,
+      drift75: (seededRandom() - 0.5) * 180,
+      rot75: (seededRandom() - 0.5) * 35,
+      drift: (seededRandom() - 0.5) * 300,
+      rot: (seededRandom() - 0.5) * 45,
+      heightMult: 1.1 + seededRandom() * 0.3,
+      borderRadius: `${55 + seededRandom()*10}% ${55 + seededRandom()*10}% ${40 + seededRandom()*10}% ${40 + seededRandom()*10}% / ${60 + seededRandom()*10}% ${60 + seededRandom()*10}% ${35 + seededRandom()*10}% ${35 + seededRandom()*10}%`,
+      gradientX: 30 + seededRandom() * 20 + '%',
+      gradientY: 30 + seededRandom() * 20 + '%',
+      highlightTop: `${15 + seededRandom()*10}%`,
+      highlightLeft: `${20 + seededRandom()*15}%`,
+      highlightW: `${20 + seededRandom()*10}%`,
+      highlightH: `${25 + seededRandom()*15}%`,
+      highlightRot: `${-35 + seededRandom()*10}deg`,
+      shadowX: `-${8 + seededRandom()*5}px`,
+      shadowY: `-${10 + seededRandom()*5}px`,
+      outerShadow: `${5 + seededRandom()*10}px`,
+      knotW: `${10 + seededRandom()*6}px`,
+      knotH: `${12 + seededRandom()*6}px`,
+      knotTop: `${-2 + seededRandom()*3}px`,
+      stringW: `${1.5 + seededRandom()}px`,
+      stringH: `${60 + seededRandom()*80}px`,
+      stringR: `${1 + seededRandom()}px`,
+      emojiSize: 0.35 + seededRandom() * 0.15,
+      hoverScale: 1.05 + seededRandom() * 0.1,
+      hoverRot: `${-5 + seededRandom()*4}deg`,
+      burstDur: `${0.5 + seededRandom()*0.4}s`,
+      burstScale: 1.3 + seededRandom() * 0.4,
+      burstFinal: 2.0 + seededRandom() * 0.6,
+      ringSize: `${70 + seededRandom()*60}px`,
+      ringThickness: `${4 + seededRandom()*6}px`,
+      floatEase: ['linear', 'ease-in', 'ease-out', 'ease-in-out', 'cubic-bezier(0.25,0.1,0.25,1)'][Math.floor(seededRandom()*5)],
+      confettiCount: 15 + Math.floor(seededRandom() * 15)
+    };
+    return vars;
+  }
+
+  function spawnBalloon() {
+    if (activeBalloons.length >= MAX_BALLOONS) return;
+
+    const data = getRandomBalloon();
+    const vars = generateBalloonVars(data);
+
+    const el = document.createElement('div');
+    el.className = 'balloon';
+    el.style.cssText = `
+      left:${vars.x}%;
+      --dur:${vars.dur}s;--size:${vars.size}px;--color:${data.color};--dark:${data.dark};
+      --drift:${vars.drift}px;--rot:${vars.rot}deg;--drift-25:${vars.drift25}px;--rot-25:${vars.rot25}deg;
+      --drift-50:${vars.drift50}px;--rot-50:${vars.rot50}deg;--drift-75:${vars.drift75}px;--rot-75:${vars.rot75}deg;
+      --height-mult:${vars.heightMult};--border-radius:${vars.borderRadius};--gradient-x:${vars.gradientX};--gradient-y:${vars.gradientY};
+      --highlight-top:${vars.highlightTop};--highlight-left:${vars.highlightLeft};--highlight-w:${vars.highlightW};--highlight-h:${vars.highlightH};--highlight-rot:${vars.highlightRot};
+      --shadow-x:${vars.shadowX};--shadow-y:${vars.shadowY};--outer-shadow:${vars.outerShadow};
+      --knot-w:${vars.knotW};--knot-h:${vars.knotH};--knot-top:${vars.knotTop};
+      --string-w:${vars.stringW};--string-h:${vars.stringH};--string-r:${vars.stringR};
+      --emoji-size:${vars.emojiSize};--hover-scale:${vars.hoverScale};--hover-rot:${vars.hoverRot};
+      --float-ease:${vars.floatEase};--ease:${vars.floatEase};
+      --burst-dur:${vars.burstDur};--burst-scale:${vars.burstScale};--burst-final:${vars.burstFinal};
+      --ring-size:${vars.ringSize};--ring-thickness:${vars.ringThickness};
+    `;
+    
+    el.innerHTML = `<div class="balloon-body"><span class="balloon-emoji">${data.emoji}</span></div><div class="balloon-knot"></div><div class="balloon-string"></div>`;
+
+    el.addEventListener('click', e => popBalloon(e, el, data, vars));
+    document.body.appendChild(el);
+    activeBalloons.push(el);
+
+    el.addEventListener('animationend', () => {
+      el.remove();
+      activeBalloons = activeBalloons.filter(b => b !== el);
+      spawnBalloon();
+    });
+  }
+
+  for (let i = 0; i < MAX_BALLOONS; i++) {
+    setTimeout(spawnBalloon, i * 300 + seededRandom() * 200);
+  }
+
+  function popBalloon(e, el, data, vars) {
+    e.stopPropagation();
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height * 0.4;
+
+    const burst = document.createElement('div');
+    burst.className = 'burst';
+    burst.style.cssText = `left:${cx}px;top:${cy}px;--c:${data.color};`;
+    burst.innerHTML = `<div class="burst-ring"></div>`;
+    document.body.appendChild(burst);
+    burst.addEventListener('animationend', () => burst.remove());
+
+    for (let i = 0; i < vars.confettiCount; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti-piece';
+      const angle = seededRandom() * 360;
+      const dist = 60 + seededRandom() * 160;
+      const dx = Math.cos(angle * Math.PI/180) * dist;
+      const dy = Math.sin(angle * Math.PI/180) * dist - 80;
+      const color = CONFETTI_COLORS[Math.floor(seededRandom() * CONFETTI_COLORS.length)];
+      const confW = 6 + seededRandom() * 12;
+      const confH = 6 + seededRandom() * 12;
+      const finalRot = seededRandom() * 1440;
+      const finalScale = 0.2 + seededRandom() * 0.4;
+      
+      c.style.cssText = `
+        left:${cx}px;top:${cy}px;background:${color};
+        --cx:${dx}px;--cy:${dy}px;--cf-dur:${0.7 + seededRandom()*0.8}s;
+        --cf-ease:cubic-bezier(${seededRandom()},${seededRandom()},${seededRandom()},1);
+        --final-rot:${finalRot}deg;--final-scale:${finalScale};
+        --conf-w:${confW}px;--conf-h:${confH}px;--conf-r:${seededRandom()>0.5?'50%':'3px'};
+      `;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 2000);
+    }
+
+    el.style.animation = 'none';
+    el.remove();
+    activeBalloons = activeBalloons.filter(b => b !== el);
+
+    showLightbox(data);
+    spawnBalloon();
+  }
+
   const lightbox = document.getElementById('lightbox');
   const lbImage = document.getElementById('lightbox-image');
   const lbTitle = document.getElementById('lightbox-title');
@@ -389,10 +492,6 @@
 
   function showLightbox(data) {
     console.log('🖼️ Loading:', data.image);
-    
-    // Prevent body scroll
-    document.body.classList.add('lightbox-open');
-    
     const img = new Image();
     img.onload = () => {
       lbImage.src = data.image;
@@ -410,30 +509,11 @@
   
   function closeLightbox() {
     lightbox.classList.remove('active');
-    document.body.classList.remove('lightbox-open');
   }
 
   lbClose.addEventListener('click', closeLightbox);
-  lightbox.addEventListener('click', e => { 
-    if (e.target === lightbox) closeLightbox(); 
-  });
-  document.addEventListener('keydown', e => { 
-    if (e.key === 'Escape') closeLightbox(); 
-  });
-
-  // Touch/swipe to close on mobile
-  let startY = 0;
-  lightbox.addEventListener('touchstart', e => {
-    startY = e.touches[0].clientY;
-  });
-  lightbox.addEventListener('touchmove', e => {
-    if (!lightbox.classList.contains('active')) return;
-    const currentY = e.touches[0].clientY;
-    const diffY = currentY - startY;
-    if (diffY > 50) closeLightbox(); // Swipe down to close
-  });
-
-  // [Rest of spawnBalloon, popBalloon, etc. functions remain EXACTLY THE SAME]
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 </script>
 </body>
 </html>
