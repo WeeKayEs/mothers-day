@@ -73,7 +73,7 @@
     to   { opacity: 0.9; transform: scale(1.2); }
   }
 
-  /* 🟢 PERFECTLY SPHERICAL BALLOONS */
+  /* Balloon - SPHERICAL WITH SLIGHT OVAL SHAPE */
   .balloon {
     position: absolute;
     bottom: -160px;
@@ -88,66 +88,48 @@
   .balloon-body {
     width: var(--size);
     height: calc(var(--size) * var(--height-mult));
-    /* 🟢 PERFECT SPHERE - Uniform rounded corners */
+    /* SPHERICAL WITH SLIGHT OVAL - More realistic balloon shape */
     border-radius: var(--border-radius);
-    background: 
-      radial-gradient(circle at var(--gradient-x) var(--gradient-y), rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.4) 25%, var(--color) 50%, var(--dark) 100%);
+    background: radial-gradient(circle at var(--gradient-x) var(--gradient-y), rgba(255,255,255,0.55) 0%, var(--color) 45%, var(--dark) 100%);
     box-shadow: 
-      inset var(--shadow-x) var(--shadow-y) 25px rgba(0,0,0,0.3), 
-      inset -10px -10px 25px rgba(255,255,255,0.2),
-      0 8px 32px rgba(0,0,0,0.4),
-      0 0 40px rgba(255,255,255,0.1);
+      inset var(--shadow-x) var(--shadow-y) 20px rgba(0,0,0,0.25), 
+      0 var(--outer-shadow) 30px rgba(0,0,0,0.3),
+      /* Additional spherical depth */
+      0 0 40px rgba(0,0,0,0.2);
     position: relative;
-    transition: all 0.15s ease-out;
+    transition: transform 0.1s;
     touch-action: manipulation;
   }
-
-  /* 🟢 DOUBLE SHINE HIGHLIGHTS FOR SPHERE */
-  .balloon-body::before {
+  
+  .balloon-body::after {
     content: '';
     position: absolute;
     top: var(--highlight-top);
     left: var(--highlight-left);
     width: var(--highlight-w);
     height: var(--highlight-h);
-    background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.3) 60%, transparent 80%);
+    background: rgba(255,255,255,0.45);
     border-radius: 50%;
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  .balloon-body::after {
-    content: '';
-    position: absolute;
-    bottom: 15%;
-    right: 20%;
-    width: 20%;
-    height: 15%;
-    background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
-    border-radius: 50%;
-    opacity: 0.7;
+    transform: rotate(var(--highlight-rot));
     pointer-events: none;
   }
-
+  
   .balloon-knot {
     width: var(--knot-w);
     height: var(--knot-h);
-    background: linear-gradient(var(--dark), darken(var(--dark), 20%));
-    border-radius: 0 0 100% 100%;
+    background: var(--dark);
+    border-radius: 0 0 50% 50%;
     margin: 0 auto;
     position: relative;
     top: var(--knot-top);
-    z-index: 3;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
   }
   
   .balloon-string {
     width: var(--string-w);
     height: var(--string-h);
-    background: linear-gradient(90deg, rgba(255,255,255,0.4), rgba(255,255,255,0.2));
+    background: rgba(255,255,255,0.35);
     margin: 0 auto;
     border-radius: var(--string-r);
-    z-index: 1;
   }
   
   .balloon-emoji {
@@ -157,25 +139,18 @@
     transform: translate(-50%, -50%);
     font-size: calc(var(--size) * var(--emoji-size));
     pointer-events: none;
-    animation: emojiWobble 2.5s ease-in-out infinite;
-    z-index: 2;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    animation: emojiWobble 2s ease-in-out infinite;
   }
 
   @keyframes emojiWobble {
-    0%, 100% { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
-    25% { transform: translate(-50%, -52%) rotate(1deg) scale(1.02); }
-    75% { transform: translate(-50%, -48%) rotate(-1deg) scale(0.98); }
+    0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+    25% { transform: translate(-50%, -52%) rotate(2deg); }
+    75% { transform: translate(-50%, -48%) rotate(-2deg); }
   }
 
   .balloon:hover .balloon-body {
     transform: scale(var(--hover-scale)) rotate(var(--hover-rot));
-    filter: brightness(1.15) saturate(1.1);
-    box-shadow: 
-      inset var(--shadow-x) var(--shadow-y) 25px rgba(0,0,0,0.3), 
-      inset -10px -10px 25px rgba(255,255,255,0.3),
-      0 12px 40px rgba(0,0,0,0.5),
-      0 0 60px rgba(var(--color-rgb), 0.4);
+    filter: brightness(1.1);
   }
 
   @keyframes floatUp {
@@ -185,7 +160,7 @@
     50%  { transform: translateX(var(--drift-50)) rotate(var(--rot-50)); }
     75%  { transform: translateX(var(--drift-75)) rotate(var(--rot-75)); }
     90%  { opacity: 1; }
-    100% { bottom: 110vh; opacity: 0; transform: translateX(var(--drift)) rotate(var(--rot)) scale(0.85); }
+    100% { bottom: 110vh; opacity: 0; transform: translateX(var(--drift)) rotate(var(--rot)) scale(0.8); }
   }
 
   /* Pop burst */
@@ -224,7 +199,7 @@
     100% { opacity: 0; transform: translate(var(--cx), var(--cy)) rotate(var(--final-rot)) scale(var(--final-scale)); }
   }
 
-  /* Image Lightbox */
+  /* Image Lightbox - FIXED */
   #lightbox {
     position: fixed;
     inset: 0;
@@ -381,4 +356,242 @@
   const BALLOONS = [
     { emoji: '🌸', color: '#ff6b6b', dark: '#c0392b', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (1).jpg', title: 'माँ की मधुर मुस्कान ❤️', desc: 'आपकी मेहनत और त्याग ने हर दिल को छुआ है। आपकी मुस्कान ही हमारा संसार है!' },
     { emoji: '💐', color: '#a855f7', dark: '#7c3aed', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (3).jpg', title: 'शालीनता की मिसाल', desc: 'आपकी दृढ़ता और निस्वार्थ प्रेम ने जीवन को सुंदर बनाया। आपकी ताकत हमारी प्रेरणा!' },
-    { emoji: '
+    { emoji: '🌺', color: '#38bdf8', dark: '#0284c7', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (4).jpg', title: 'हँसी की मधुर ध्वनि', desc: 'आपका अथक परिश्रम और समर्पण हर मुश्किल को आसान बनाता है। आपकी हँसी हमारा संगीत!' },
+    { emoji: '🌹', color: '#fb923c', dark: '#ea580c', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (6).jpg', title: 'गर्मजोशी भरी गोद', desc: 'आपके बलिदान और ममता ने हमें घर का आभास कराया। आपका प्रेम अनमोल है!' },
+    { emoji: '💖', color: '#4ade80', dark: '#16a34a', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (7).jpg', title: 'निस्वार्थ ममता', desc: 'आपकी मेहनत और त्याग बिन कुछ माँगें। आपका प्रेम ही सबसे बड़ा धन है!' },
+    { emoji: '🌼', color: '#67e8f9', dark: '#0891b2', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (8).jpg', title: 'कोमल आत्मा', desc: 'आपकी दृढ़ता ने हर तूफान को झेला। आप हमारा मार्गदर्शक सितारा हैं!' },
+    { emoji: '⭐', color: '#818cf8', dark: '#4338ca', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (9).jpg', title: 'चमकता सितारा', desc: 'आपका निस्वार्थ प्रेम और समर्पण जीवन रोशन करता है। आप सबसे तेज़ प्रकाश!' },
+    { emoji: '🌟', color: '#fbbf24', dark: '#d97706', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (10).jpg', title: 'स्वर्णिम हृदय', desc: 'आपकी मेहनत के सोने से भी अनमोल खजाना है। आपका त्याग अमूल्य!' },
+    { emoji: '💎', color: '#22d3ee', dark: '#0e7490', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (11).jpg', title: 'अमूल्य रत्न', desc: 'हिरे से भी दुर्लभ आपका प्रेम। आपकी दृढ़ता और निस्वार्थता अद्भुत!' },
+    { emoji: '👑', color: '#f472b6', dark: '#be185d', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (12).jpg', title: 'हमारी रानी', desc: 'आपके बलिदान ने हमारे दिलों पर राज किया। आपकी ममता का कोई अंत नहीं!' },
+    { emoji: '🦋', color: '#fb7185', dark: '#be123c', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (13).jpg', title: 'सुंदरता की उड़ान', desc: 'आपके अथक प्रयासों ने हमारा जीवन संवारा। आपकी ताकत चमत्कारिक!' },
+    { emoji: '🌈', color: '#facc15', dark: '#a16207', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (14).jpg', title: 'खुशियों का इंद्रधनुष', desc: 'आपका प्रेम हर रंग भरता है। मातृत्व दिवस की हार्दिक शुभकामनाएँ! 💝' },
+    { emoji: '❤️', color: '#ef4444', dark: '#dc2626', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (15).jpg', title: 'अनंत मातृ प्रेम', desc: 'आपकी मेहनत, त्याग, दृढ़ता और निस्वार्थ प्रेम के लिए सदा आभारी। माँ आप सर्वश्रेष्ठ! 💝' }
+  ];
+
+  const CONFETTI_COLORS = ['#ff6b6b','#ffd700','#a855f7','#38bdf8','#4ade80','#fb923c','#f472b6','#67e8f9'];
+
+  let activeBalloons = [];
+  const MAX_BALLOONS = 10;
+  
+  // 🎲 ULTRA-VARIABLE SYSTEM
+  let recentlyUsed = new Set();
+  let randomizationCounter = 0;
+  let globalSeed = Date.now();
+
+  function seededRandom() {
+    globalSeed = (globalSeed * 9301 + 49297) % 233280;
+    return globalSeed / 233280;
+  }
+
+  function getRandomBalloon() {
+    const available = [];
+    
+    for (let i = 0; i < BALLOONS.length; i++) {
+      if (!recentlyUsed.has(i)) available.push(i);
+    }
+    
+    if (available.length === 0) {
+      for (let i = 0; i < BALLOONS.length; i++) available.push(i);
+    }
+    
+    for (let i = available.length - 1; i > 0; i--) {
+      const j = Math.floor(seededRandom() * (i + 1));
+      [available[i], available[j]] = [available[j], available[i]];
+    }
+    
+    const selectedIndex = available[0];
+    recentlyUsed.add(selectedIndex);
+    randomizationCounter++;
+    
+    if (randomizationCounter % 6 === 0) {
+      recentlyUsed.clear();
+      globalSeed = Date.now() + Math.random() * 10000;
+    }
+    
+    return BALLOONS[selectedIndex];
+  }
+
+  // ── Stars ────────────────────────────────────────────────
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = 0.5 + seededRandom() * 3;
+    s.style.cssText = `width:${sz}px;height:${sz}px;top:${seededRandom()*100}%;left:${seededRandom()*100}%;--d:${(seededRandom()*3+1.5).toFixed(1)}s;`;
+    starsEl.appendChild(s);
+  }
+
+  function generateBalloonVars(data) {
+    // More spherical height multiplier (1.0-1.15 for slight oval)
+    const heightMult = 1.0 + seededRandom() * 0.15;
+    
+    const vars = {
+      size: 55 + seededRandom() * 80,
+      dur: 5 + seededRandom() * 12,
+      x: seededRandom() * 95,
+      drift25: (seededRandom() - 0.5) * 150,
+      rot25: (seededRandom() - 0.5) * 25,
+      drift50: (seededRandom() - 0.5) * 250,
+      rot50: (seededRandom() - 0.5) * 40,
+      drift75: (seededRandom() - 0.5) * 180,
+      rot75: (seededRandom() - 0.5) * 35,
+      drift: (seededRandom() - 0.5) * 300,
+      rot: (seededRandom() - 0.5) * 45,
+      heightMult: heightMult,
+      // SPHERICAL OVAL SHAPE - Much rounder balloon
+      borderRadius: `68% 72% 75% 65% / 75% 70% 80% 65%`,
+      gradientX: 30 + seededRandom() * 20 + '%',
+      gradientY: 30 + seededRandom() * 20 + '%',
+      highlightTop: `${15 + seededRandom()*10}%`,
+      highlightLeft: `${20 + seededRandom()*15}%`,
+      highlightW: `${20 + seededRandom()*10}%`,
+      highlightH: `${25 + seededRandom()*15}%`,
+      highlightRot: `${-35 + seededRandom()*10}deg`,
+      shadowX: `-${8 + seededRandom()*5}px`,
+      shadowY: `-${10 + seededRandom()*5}px`,
+      outerShadow: `${5 + seededRandom()*10}px`,
+      knotW: `${10 + seededRandom()*6}px`,
+      knotH: `${12 + seededRandom()*6}px`,
+      knotTop: `${-2 + seededRandom()*3}px`,
+      stringW: `${1.5 + seededRandom()}px`,
+      stringH: `${60 + seededRandom()*80}px`,
+      stringR: `${1 + seededRandom()}px`,
+      emojiSize: 0.35 + seededRandom() * 0.15,
+      hoverScale: 1.05 + seededRandom() * 0.1,
+      hoverRot: `${-5 + seededRandom()*4}deg`,
+      burstDur: `${0.5 + seededRandom()*0.4}s`,
+      burstScale: 1.3 + seededRandom() * 0.4,
+      burstFinal: 2.0 + seededRandom() * 0.6,
+      ringSize: `${70 + seededRandom()*60}px`,
+      ringThickness: `${4 + seededRandom()*6}px`,
+      floatEase: ['linear', 'ease-in', 'ease-out', 'ease-in-out', 'cubic-bezier(0.25,0.1,0.25,1)'][Math.floor(seededRandom()*5)],
+      confettiCount: 15 + Math.floor(seededRandom() * 15)
+    };
+    return vars;
+  }
+
+  function spawnBalloon() {
+    if (activeBalloons.length >= MAX_BALLOONS) return;
+
+    const data = getRandomBalloon();
+    const vars = generateBalloonVars(data);
+
+    const el = document.createElement('div');
+    el.className = 'balloon';
+    el.style.cssText = `
+      left:${vars.x}%;
+      --dur:${vars.dur}s;--size:${vars.size}px;--color:${data.color};--dark:${data.dark};
+      --drift:${vars.drift}px;--rot:${vars.rot}deg;--drift-25:${vars.drift25}px;--rot-25:${vars.rot25}deg;
+      --drift-50:${vars.drift50}px;--rot-50:${vars.rot50}deg;--drift-75:${vars.drift75}px;--rot-75:${vars.rot75}deg;
+      --height-mult:${vars.heightMult};--border-radius:${vars.borderRadius};--gradient-x:${vars.gradientX};--gradient-y:${vars.gradientY};
+      --highlight-top:${vars.highlightTop};--highlight-left:${vars.highlightLeft};--highlight-w:${vars.highlightW};--highlight-h:${vars.highlightH};--highlight-rot:${vars.highlightRot};
+      --shadow-x:${vars.shadowX};--shadow-y:${vars.shadowY};--outer-shadow:${vars.outerShadow};
+      --knot-w:${vars.knotW};--knot-h:${vars.knotH};--knot-top:${vars.knotTop};
+      --string-w:${vars.stringW};--string-h:${vars.stringH};--string-r:${vars.stringR};
+      --emoji-size:${vars.emojiSize};--hover-scale:${vars.hoverScale};--hover-rot:${vars.hoverRot};
+      --float-ease:${vars.floatEase};--ease:${vars.floatEase};
+      --burst-dur:${vars.burstDur};--burst-scale:${vars.burstScale};--burst-final:${vars.burstFinal};
+      --ring-size:${vars.ringSize};--ring-thickness:${vars.ringThickness};
+    `;
+    
+    el.innerHTML = `<div class="balloon-body"><span class="balloon-emoji">${data.emoji}</span></div><div class="balloon-knot"></div><div class="balloon-string"></div>`;
+
+    el.addEventListener('click', e => popBalloon(e, el, data, vars));
+    el.addEventListener('touchstart', e => popBalloon(e, el, data, vars), { passive: true });
+    document.body.appendChild(el);
+    activeBalloons.push(el);
+
+    el.addEventListener('animationend', () => {
+      el.remove();
+      activeBalloons = activeBalloons.filter(b => b !== el);
+      spawnBalloon();
+    });
+  }
+
+  for (let i = 0; i < MAX_BALLOONS; i++) {
+    setTimeout(spawnBalloon, i * 300 + seededRandom() * 200);
+  }
+
+  function popBalloon(e, el, data, vars) {
+    e.stopPropagation();
+    e.preventDefault();
+    
+    const rect = el.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height * 0.4;
+
+    const burst = document.createElement('div');
+    burst.className = 'burst';
+    burst.style.cssText = `left:${cx}px;top:${cy}px;--c:${data.color};`;
+    burst.innerHTML = `<div class="burst-ring"></div>`;
+    document.body.appendChild(burst);
+    burst.addEventListener('animationend', () => burst.remove());
+
+    for (let i = 0; i < vars.confettiCount; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti-piece';
+      const angle = seededRandom() * 360;
+      const dist = 60 + seededRandom() * 160;
+      const dx = Math.cos(angle * Math.PI/180) * dist;
+      const dy = Math.sin(angle * Math.PI/180) * dist - 80;
+      const color = CONFETTI_COLORS[Math.floor(seededRandom() * CONFETTI_COLORS.length)];
+      const confW = 6 + seededRandom() * 12;
+      const confH = 6 + seededRandom() * 12;
+      const finalRot = seededRandom() * 1440;
+      const finalScale = 0.2 + seededRandom() * 0.4;
+      
+      c.style.cssText = `
+        left:${cx}px;top:${cy}px;background:${color};
+        --cx:${dx}px;--cy:${dy}px;--cf-dur:${0.7 + seededRandom()*0.8}s;
+        --cf-ease:cubic-bezier(${seededRandom()},${seededRandom()},${seededRandom()},1);
+        --final-rot:${finalRot}deg;--final-scale:${finalScale};
+        --conf-w:${confW}px;--conf-h:${confH}px;--conf-r:${seededRandom()>0.5?'50%':'3px'};
+      `;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 2000);
+    }
+
+    el.style.animation = 'none';
+    el.remove();
+    activeBalloons = activeBalloons.filter(b => b !== el);
+
+    showLightbox(data);
+    spawnBalloon();
+  }
+
+  const lightbox = document.getElementById('lightbox');
+  const lbImage = document.getElementById('lightbox-image');
+  const lbTitle = document.getElementById('lightbox-title');
+  const lbDesc = document.getElementById('lightbox-desc');
+  const lbClose = document.getElementById('lightbox-close');
+
+  function showLightbox(data) {
+    console.log('🖼️ Loading:', data.image);
+    const img = new Image();
+    img.onload = () => {
+      lbImage.src = data.image;
+      lightbox.classList.add('active');
+    };
+    img.onerror = () => {
+      lbImage.src = 'https://via.placeholder.com/280x280/FF6B6B/FFFFFF?text=छवि+नहीं+मिली';
+      lightbox.classList.add('active');
+    };
+    img.src = data.image;
+    
+    lbTitle.textContent = data.title;
+    lbDesc.textContent = data.desc;
+  }
+  
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+  }
+
+  lbClose.addEventListener('click', closeLightbox);
+  lbClose.addEventListener('touchstart', closeLightbox, { passive: true });
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  lightbox.addEventListener('touchstart', e => { if (e.target === lightbox) closeLightbox(); }, { passive: true });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+</body>
+</html>
