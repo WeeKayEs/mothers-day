@@ -5,15 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>गुब्बारे फोड़ो! 🎈</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Noto+Sans+Devanagari:wght@400;700;900&family=Nunito:wght@400;700;900&display=swap');
+
   :root {
     --bg1: #0f0c29;
     --bg2: #302b63;
     --bg3: #24243e;
-    --confetti-colors: #ff6b6b, #ffd700, #a855f7, #38bdf8, #4ade80, #fb923c, #f472b6, #67e8f9;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  
+  * { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+  }
+
   html {
     height: 100%;
     overflow: hidden;
@@ -66,27 +71,33 @@
   }
 
   @keyframes glow {
-    to { text-shadow: 0 0 35px rgba(255,107,203,1), 0 0 45px rgba(255,107,203,0.6), 0 2px 0 rgba(0,0,0,0.4); }
+    from { 
+      text-shadow: 0 0 25px rgba(255,107,203,0.8), 0 2px 0 rgba(0,0,0,0.4);
+    }
+    to { 
+      text-shadow: 0 0 35px rgba(255,107,203,1), 0 0 45px rgba(255,107,203,0.6), 0 2px 0 rgba(0,0,0,0.4);
+    }
   }
 
+  /* Stars background */
   .stars {
     position: fixed;
     inset: 0;
     pointer-events: none;
     z-index: 0;
   }
-  
   .star {
     position: absolute;
     background: #fff;
     border-radius: 50%;
     animation: twinkle var(--d) ease-in-out infinite alternate;
   }
-  
   @keyframes twinkle {
-    to { opacity: 0.9; transform: scale(1.2); }
+    from { opacity: 0.1; transform: scale(0.8); }
+    to   { opacity: 0.9; transform: scale(1.2); }
   }
 
+  /* Balloon - SPHERICAL WITH SLIGHT OVAL SHAPE */
   .balloon {
     position: absolute;
     bottom: -160px;
@@ -95,19 +106,23 @@
     z-index: 5;
     user-select: none;
     touch-action: manipulation;
+    animation-timing-function: var(--ease);
   }
 
   .balloon-body {
     width: var(--size);
     height: calc(var(--size) * var(--height-mult));
+    /* SPHERICAL WITH SLIGHT OVAL - More realistic balloon shape */
     border-radius: var(--border-radius);
     background: radial-gradient(circle at var(--gradient-x) var(--gradient-y), rgba(255,255,255,0.55) 0%, var(--color) 45%, var(--dark) 100%);
     box-shadow: 
       inset var(--shadow-x) var(--shadow-y) 20px rgba(0,0,0,0.25), 
       0 var(--outer-shadow) 30px rgba(0,0,0,0.3),
+      /* Additional spherical depth */
       0 0 40px rgba(0,0,0,0.2);
     position: relative;
     transition: transform 0.1s;
+    touch-action: manipulation;
   }
   
   .balloon-body::after {
@@ -152,6 +167,7 @@
   }
 
   @keyframes emojiWobble {
+    0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
     25% { transform: translate(-50%, -52%) rotate(2deg); }
     75% { transform: translate(-50%, -48%) rotate(-2deg); }
   }
@@ -162,27 +178,27 @@
   }
 
   @keyframes floatUp {
-    0% { bottom: -160px; opacity: 0; transform: translateX(0) rotate(0deg) scale(0.3); }
-    5% { opacity: 1; transform: translateX(0) rotate(0deg) scale(1); }
-    25% { transform: translateX(var(--drift-25)) rotate(var(--rot-25)); }
-    50% { transform: translateX(var(--drift-50)) rotate(var(--rot-50)); }
-    75% { transform: translateX(var(--drift-75)) rotate(var(--rot-75)); }
-    90% { opacity: 1; }
+    0%   { bottom: -160px; opacity: 0; transform: translateX(0) rotate(0deg) scale(0.3); }
+    5%   { opacity: 1; transform: translateX(0) rotate(0deg) scale(1); }
+    25%  { transform: translateX(var(--drift-25)) rotate(var(--rot-25)); }
+    50%  { transform: translateX(var(--drift-50)) rotate(var(--rot-50)); }
+    75%  { transform: translateX(var(--drift-75)) rotate(var(--rot-75)); }
+    90%  { opacity: 1; }
     100% { bottom: 110vh; opacity: 0; transform: translateX(var(--drift)) rotate(var(--rot)) scale(0.8); }
   }
 
+  /* Pop burst */
   .burst {
     position: fixed;
     pointer-events: none;
     z-index: 100;
     animation: burstAnim var(--burst-dur) ease-out forwards;
   }
-  
   @keyframes burstAnim {
-    60% { transform: scale(var(--burst-scale)); opacity: 0.8; }
+    0%   { transform: scale(0); opacity: 1; }
+    60%  { transform: scale(var(--burst-scale)); opacity: 0.8; }
     100% { transform: scale(var(--burst-final)); opacity: 0; }
   }
-  
   .burst-ring {
     width: var(--ring-size);
     height: var(--ring-size);
@@ -202,11 +218,12 @@
     z-index: 99;
     animation: confettiFall var(--cf-dur) var(--cf-ease) forwards;
   }
-  
   @keyframes confettiFall {
-    to { opacity: 0; transform: translate(var(--cx), var(--cy)) rotate(var(--final-rot)) scale(var(--final-scale)); }
+    0%   { opacity: 1; transform: translate(0,0) rotate(0deg) scale(1); }
+    100% { opacity: 0; transform: translate(var(--cx), var(--cy)) rotate(var(--final-rot)) scale(var(--final-scale)); }
   }
 
+  /* Image Lightbox - FIXED */
   #lightbox {
     position: fixed;
     inset: 0;
@@ -269,6 +286,7 @@
   @keyframes imagePop {
     0% { transform: scale(0) rotate(-15deg); opacity: 0; }
     70% { transform: scale(1.1) rotate(2deg); opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); }
   }
   
   #lightbox-title {
@@ -280,7 +298,6 @@
     text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     margin-bottom: 8px;
   }
-  
   #lightbox-desc {
     font-size: 1.1rem;
     color: rgba(255,255,255,0.9);
@@ -288,7 +305,6 @@
     max-width: 340px;
     line-height: 1.7;
   }
-  
   #lightbox-close {
     padding: 12px 40px;
     background: linear-gradient(135deg, #ff6bcb, #a855f7);
@@ -303,35 +319,60 @@
     letter-spacing: 1px;
     touch-action: manipulation;
   }
-  
-  #lightbox-close:hover, #lightbox-close:active {
+  #lightbox-close:hover,
+  #lightbox-close:active {
     transform: translateY(-2px) scale(1.05);
     box-shadow: 0 8px 35px rgba(168,85,247,0.8);
   }
 
   @media (max-width: 480px) {
-    #lightbox-inner { padding: 24px; gap: 20px; margin: 20px; max-width: calc(100vw - 40px); }
-    #lightbox-image { width: 240px; height: 240px; max-width: 85vw; max-height: 35vh; }
-    #lightbox-title { font-size: 1.5rem; }
-    #lightbox-desc { font-size: 1rem; max-width: 280px; }
+    #lightbox-inner { 
+      padding: 24px; 
+      gap: 20px;
+      margin: 20px;
+      max-width: calc(100vw - 40px);
+    }
+    #lightbox-image { 
+      width: 240px; 
+      height: 240px;
+      max-width: 85vw;
+      max-height: 35vh;
+    }
+    #lightbox-title { 
+      font-size: 1.5rem; 
+    }
+    #lightbox-desc {
+      font-size: 1rem;
+      max-width: 280px;
+    }
   }
 
   @media (max-height: 600px) {
-    #lightbox-inner { padding: 20px; gap: 16px; max-height: 85vh; }
-    #lightbox-image { width: 220px; height: 220px; max-width: 80vw; max-height: 30vh; }
+    #lightbox-inner {
+      padding: 20px;
+      gap: 16px;
+      max-height: 85vh;
+    }
+    #lightbox-image {
+      width: 220px;
+      height: 220px;
+      max-width: 80vw;
+      max-height: 30vh;
+    }
   }
 </style>
 </head>
 <body>
+
 <div class="stars" id="stars"></div>
 <div class="heading-container">
-  <h1>Happy Mother's Day</h1>
-  <div class="mothers-day">🎈 गुब्बारे फोड़ो 💥</div>
+  <h1> Happy Mother's Day </h1>
+  <div class="mothers-day"> 🎈 गुब्बारे फोड़ो 💥 </div>
 </div>
 
 <div id="lightbox">
   <div id="lightbox-inner">
-    <img id="lightbox-image" src="" alt="Surprise Image"/>
+    <img id="lightbox-image" src="" alt="Surprise Image" />
     <div id="lightbox-title">खास तोहफा!</div>
     <div id="lightbox-desc">आपने कुछ अनमोल पाया!</div>
     <button id="lightbox-close">और फोड़ो! 🎈</button>
@@ -339,239 +380,245 @@
 </div>
 
 <script>
-const BALLOONS = [
-  {emoji:'🌸',color:'#ff6b6b',dark:'#c0392b',image:'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (1).jpg',title:'माँ की मधुर मुस्कान ❤️',desc:'आपकी मेहनत और त्याग ने हर दिल को छुआ है। आपकी मुस्कान ही हमारा संसार है!'},
-  {emoji:'💐',color:'#a855f7',dark:'#7c3aed',image:'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (3).jpg',title:'शालीनता की मिसाल',desc:'आपकी दृढ़ता और निस्वार्थ प्रेम ने जीवन को सुंदर बनाया। आपकी ताकत हमारी प्रेरणा!'},
-  {emoji:'🌺',color:'#38bdf8',dark:'#0284c7',image:'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (4).jpg',title:'हँसी की मधुर ध्वनि',desc:'आपका अथक परिश्रम और समर्पण हर मुश्किल को आसान बनाता है। आपकी हँसी हमारा संगीत!'},
-  {emoji:'🌹',color:'#fb923c',dark:'#ea580c',image:'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (6).jpg',title:'गर्मजोशी भरी गोद',desc:'आपके बलिदान और ममता ने हमें घर का आभास कराया। आपका प्रेम अनमोल है!'},
-  {emoji:'💖',color:'#4ade80',dark:'#16a34a',image:'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (7).jpg',title:'निस्वार्थ ममता',desc:'आपकी मेहनत और त्याग बिन कुछ माँगें। आपका प्रेम ही सबसे बड़ा धन है!'},
-  {emoji:'🌼',color:'#67e8f9',dark:'#0891b2',image:'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (8).jpg',title:'कोमल आत्मा',desc:'आपकी दृढ़ता ने हर तूफान को झेला। आप हमारा मार्गदर्शक सितारा हैं!'},
-  {emoji:'⭐',color:'#818cf8',dark:'#4338ca',image:'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (9).jpg',title:'चमकता सितारा',desc:'आपका निस्वार्थ प्रेम और समर्पण जीवन रोशन करता है। आप सबसे तेज़ प्रकाश!'},
-  {emoji:'🌟',color:'#fbbf24',dark:'#d97706',image:'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (10).jpg',title:'स्वर्णिम हृदय',desc:'आपकी मेहनत के सोने से भी अनमोल खजाना है। आपका त्याग अमूल्य!'},
-  {emoji:'💎',color:'#22d3ee',dark:'#0e7490',image:'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (11).jpg',title:'अमूल्य रत्न',desc:'हिरे से भी दुर्लभ आपका प्रेम। आपकी दृढ़ता और निस्वार्थता अद्भुत!'},
-  {emoji:'👑',color:'#f472b6',dark:'#be185d',image:'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (12).jpg',title:'हमारी रानी',desc:'आपके बलिदान ने हमारे दिलों पर राज किया। आपकी ममता का कोई अंत नहीं!'},
-  {emoji:'🦋',color:'#fb7185',dark:'#be123c',image:'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (13).jpg',title:'सुंदरता की उड़ान',desc:'आपके अथक प्रयासों ने हमारा जीवन संवारा। आपकी ताकत चमत्कारिक!'},
-  {emoji:'🌈',color:'#facc15',dark:'#a16207',image:'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (14).jpg',title:'खुशियों का इंद्रधनुष',desc:'आपका प्रेम हर रंग भरता है। मातृत्व दिवस की हार्दिक शुभकामनाएँ! 💝'},
-  {emoji:'❤️',color:'#ef4444',dark:'#dc2626',image:'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (15).jpg',title:'अनंत मातृ प्रेम',desc:'आपकी मेहनत, त्याग, दृढ़ता और निस्वार्थ प्रेम के लिए सदा आभारी। माँ आप सर्वश्रेष्ठ! 💝'}
-];
+  const BALLOONS = [
+    { emoji: '🌸', color: '#ff6b6b', dark: '#c0392b', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (1).jpg', title: 'माँ की मधुर मुस्कान ❤️', desc: 'आपकी मेहनत और त्याग ने हर दिल को छुआ है। आपकी मुस्कान ही हमारा संसार है!' },
+    { emoji: '💐', color: '#a855f7', dark: '#7c3aed', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (3).jpg', title: 'शालीनता की मिसाल', desc: 'आपकी दृढ़ता और निस्वार्थ प्रेम ने जीवन को सुंदर बनाया। आपकी ताकत हमारी प्रेरणा!' },
+    { emoji: '🌺', color: '#38bdf8', dark: '#0284c7', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (4).jpg', title: 'हँसी की मधुर ध्वनि', desc: 'आपका अथक परिश्रम और समर्पण हर मुश्किल को आसान बनाता है। आपकी हँसी हमारा संगीत!' },
+    { emoji: '🌹', color: '#fb923c', dark: '#ea580c', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (6).jpg', title: 'गर्मजोशी भरी गोद', desc: 'आपके बलिदान और ममता ने हमें घर का आभास कराया। आपका प्रेम अनमोल है!' },
+    { emoji: '💖', color: '#4ade80', dark: '#16a34a', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (7).jpg', title: 'निस्वार्थ ममता', desc: 'आपकी मेहनत और त्याग बिन कुछ माँगें। आपका प्रेम ही सबसे बड़ा धन है!' },
+    { emoji: '🌼', color: '#67e8f9', dark: '#0891b2', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (8).jpg', title: 'कोमल आत्मा', desc: 'आपकी दृढ़ता ने हर तूफान को झेला। आप हमारा मार्गदर्शक सितारा हैं!' },
+    { emoji: '⭐', color: '#818cf8', dark: '#4338ca', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (9).jpg', title: 'चमकता सितारा', desc: 'आपका निस्वार्थ प्रेम और समर्पण जीवन रोशन करता है। आप सबसे तेज़ प्रकाश!' },
+    { emoji: '🌟', color: '#fbbf24', dark: '#d97706', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (10).jpg', title: 'स्वर्णिम हृदय', desc: 'आपकी मेहनत के सोने से भी अनमोल खजाना है। आपका त्याग अमूल्य!' },
+    { emoji: '💎', color: '#22d3ee', dark: '#0e7490', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (11).jpg', title: 'अमूल्य रत्न', desc: 'हिरे से भी दुर्लभ आपका प्रेम। आपकी दृढ़ता और निस्वार्थता अद्भुत!' },
+    { emoji: '👑', color: '#f472b6', dark: '#be185d', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (12).jpg', title: 'हमारी रानी', desc: 'आपके बलिदान ने हमारे दिलों पर राज किया। आपकी ममता का कोई अंत नहीं!' },
+    { emoji: '🦋', color: '#fb7185', dark: '#be123c', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (13).jpg', title: 'सुंदरता की उड़ान', desc: 'आपके अथक प्रयासों ने हमारा जीवन संवारा। आपकी ताकत चमत्कारिक!' },
+    { emoji: '🌈', color: '#facc15', dark: '#a16207', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (14).jpg', title: 'खुशियों का इंद्रधनुष', desc: 'आपका प्रेम हर रंग भरता है। मातृत्व दिवस की हार्दिक शुभकामनाएँ! 💝' },
+    { emoji: '❤️', color: '#ef4444', dark: '#dc2626', image: 'https://raw.githubusercontent.com/WeeKayEs/mothers-day/main/pic (15).jpg', title: 'अनंत मातृ प्रेम', desc: 'आपकी मेहनत, त्याग, दृढ़ता और निस्वार्थ प्रेम के लिए सदा आभारी। माँ आप सर्वश्रेष्ठ! 💝' }
+  ];
 
-class BalloonGame {
-  constructor() {
-    this.activeBalloons = [];
-    this.MAX_BALLOONS = 10;
-    this.recentlyUsed = new Set();
-    this.randomizationCounter = 0;
-    this.globalSeed = Date.now();
-    this.init();
+  const CONFETTI_COLORS = ['#ff6b6b','#ffd700','#a855f7','#38bdf8','#4ade80','#fb923c','#f472b6','#67e8f9'];
+
+  let activeBalloons = [];
+  const MAX_BALLOONS = 10;
+  
+  // 🎲 ULTRA-VARIABLE SYSTEM
+  let recentlyUsed = new Set();
+  let randomizationCounter = 0;
+  let globalSeed = Date.now();
+
+  function seededRandom() {
+    globalSeed = (globalSeed * 9301 + 49297) % 233280;
+    return globalSeed / 233280;
   }
 
-  seededRandom() {
-    this.globalSeed = (this.globalSeed * 9301 + 49297) % 233280;
-    return this.globalSeed / 233280;
-  }
-
-  getRandomBalloon() {
-    const available = BALLOONS.map((_, i) => i).filter(i => !this.recentlyUsed.has(i));
-    if (!available.length) available.push(...BALLOONS.keys());
+  function getRandomBalloon() {
+    const available = [];
     
-    const shuffled = available.sort(() => this.seededRandom() - 0.5);
-    const selected = shuffled[0];
-    this.recentlyUsed.add(selected);
-    
-    if (++this.randomizationCounter % 6 === 0) {
-      this.recentlyUsed.clear();
-      this.globalSeed = Date.now() + Math.random() * 10000;
+    for (let i = 0; i < BALLOONS.length; i++) {
+      if (!recentlyUsed.has(i)) available.push(i);
     }
     
-    return BALLOONS[selected];
+    if (available.length === 0) {
+      for (let i = 0; i < BALLOONS.length; i++) available.push(i);
+    }
+    
+    for (let i = available.length - 1; i > 0; i--) {
+      const j = Math.floor(seededRandom() * (i + 1));
+      [available[i], available[j]] = [available[j], available[i]];
+    }
+    
+    const selectedIndex = available[0];
+    recentlyUsed.add(selectedIndex);
+    randomizationCounter++;
+    
+    if (randomizationCounter % 6 === 0) {
+      recentlyUsed.clear();
+      globalSeed = Date.now() + Math.random() * 10000;
+    }
+    
+    return BALLOONS[selectedIndex];
   }
 
-  generateVars() {
-    const r = this.seededRandom;
-    const heightMult = 1.0 + r() * 0.15;
-    const size = 55 + r() * 80;
+  // ── Stars ────────────────────────────────────────────────
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = 0.5 + seededRandom() * 3;
+    s.style.cssText = `width:${sz}px;height:${sz}px;top:${seededRandom()*100}%;left:${seededRandom()*100}%;--d:${(seededRandom()*3+1.5).toFixed(1)}s;`;
+    starsEl.appendChild(s);
+  }
+
+  function generateBalloonVars(data) {
+    // More spherical height multiplier (1.0-1.15 for slight oval)
+    const heightMult = 1.0 + seededRandom() * 0.15;
     
-    return {
-      size,
-      dur: 5 + r() * 12,
-      x: r() * 95,
-      drift25: (r() - 0.5) * 150, rot25: (r() - 0.5) * 25,
-      drift50: (r() - 0.5) * 250, rot50: (r() - 0.5) * 40,
-      drift75: (r() - 0.5) * 180, rot75: (r() - 0.5) * 35,
-      drift: (r() - 0.5) * 300, rot: (r() - 0.5) * 45,
-      heightMult,
+    const vars = {
+      size: 55 + seededRandom() * 80,
+      dur: 5 + seededRandom() * 12,
+      x: seededRandom() * 95,
+      drift25: (seededRandom() - 0.5) * 150,
+      rot25: (seededRandom() - 0.5) * 25,
+      drift50: (seededRandom() - 0.5) * 250,
+      rot50: (seededRandom() - 0.5) * 40,
+      drift75: (seededRandom() - 0.5) * 180,
+      rot75: (seededRandom() - 0.5) * 35,
+      drift: (seededRandom() - 0.5) * 300,
+      rot: (seededRandom() - 0.5) * 45,
+      heightMult: heightMult,
+      // SPHERICAL OVAL SHAPE - Much rounder balloon
       borderRadius: `68% 72% 75% 65% / 75% 70% 80% 65%`,
-      gradientX: `${30 + r() * 20}%`, gradientY: `${30 + r() * 20}%`,
-      highlightTop: `${15 + r()*10}%`, highlightLeft: `${20 + r()*15}%`,
-      highlightW: `${20 + r()*10}%`, highlightH: `${25 + r()*15}%`,
-      highlightRot: `${-35 + r()*10}deg`,
-      shadowX: `-${8 + r()*5}px`, shadowY: `-${10 + r()*5}px`,
-      outerShadow: `${5 + r()*10}px`,
-      knotW: `${10 + r()*6}px`, knotH: `${12 + r()*6}px`, knotTop: `${-2 + r()*3}px`,
-      stringW: `${1.5 + r()}px`, stringH: `${60 + r()*80}px`, stringR: `${1 + r()}px`,
-      emojiSize: 0.35 + r() * 0.15,
-      hoverScale: 1.05 + r() * 0.1, hoverRot: `${-5 + r()*4}deg`,
-      burstDur: `${0.5 + r()*0.4}s`, burstScale: 1.3 + r() * 0.4, burstFinal: 2.0 + r() * 0.6,
-      ringSize: `${70 + r()*60}px`, ringThickness: `${4 + r()*6}px`,
-      floatEase: ['linear','ease-in','ease-out','ease-in-out','cubic-bezier(0.25,0.1,0.25,1)'][Math.floor(r()*5)],
-      confettiCount: 15 + Math.floor(r() * 15)
+      gradientX: 30 + seededRandom() * 20 + '%',
+      gradientY: 30 + seededRandom() * 20 + '%',
+      highlightTop: `${15 + seededRandom()*10}%`,
+      highlightLeft: `${20 + seededRandom()*15}%`,
+      highlightW: `${20 + seededRandom()*10}%`,
+      highlightH: `${25 + seededRandom()*15}%`,
+      highlightRot: `${-35 + seededRandom()*10}deg`,
+      shadowX: `-${8 + seededRandom()*5}px`,
+      shadowY: `-${10 + seededRandom()*5}px`,
+      outerShadow: `${5 + seededRandom()*10}px`,
+      knotW: `${10 + seededRandom()*6}px`,
+      knotH: `${12 + seededRandom()*6}px`,
+      knotTop: `${-2 + seededRandom()*3}px`,
+      stringW: `${1.5 + seededRandom()}px`,
+      stringH: `${60 + seededRandom()*80}px`,
+      stringR: `${1 + seededRandom()}px`,
+      emojiSize: 0.35 + seededRandom() * 0.15,
+      hoverScale: 1.05 + seededRandom() * 0.1,
+      hoverRot: `${-5 + seededRandom()*4}deg`,
+      burstDur: `${0.5 + seededRandom()*0.4}s`,
+      burstScale: 1.3 + seededRandom() * 0.4,
+      burstFinal: 2.0 + seededRandom() * 0.6,
+      ringSize: `${70 + seededRandom()*60}px`,
+      ringThickness: `${4 + seededRandom()*6}px`,
+      floatEase: ['linear', 'ease-in', 'ease-out', 'ease-in-out', 'cubic-bezier(0.25,0.1,0.25,1)'][Math.floor(seededRandom()*5)],
+      confettiCount: 15 + Math.floor(seededRandom() * 15)
     };
+    return vars;
   }
 
-  createStars() {
-    const starsEl = document.getElementById('stars');
-    for (let i = 0; i < 80; i++) {
-      const star = document.createElement('div');
-      star.className = 'star';
-      const sz = 0.5 + this.seededRandom() * 3;
-      star.style.cssText = `width:${sz}px;height:${sz}px;top:${this.seededRandom()*100}%;left:${this.seededRandom()*100}%;--d:${(this.seededRandom()*3+1.5).toFixed(1)}s`;
-      starsEl.appendChild(star);
-    }
-  }
+  function spawnBalloon() {
+    if (activeBalloons.length >= MAX_BALLOONS) return;
 
-  spawnBalloon() {
-    if (this.activeBalloons.length >= this.MAX_BALLOONS) return;
+    const data = getRandomBalloon();
+    const vars = generateBalloonVars(data);
 
-    const data = this.getRandomBalloon();
-    const vars = this.generateVars();
-
-    const balloon = document.createElement('div');
-    balloon.className = 'balloon';
-    balloon.style.cssText = [
-      `left:${vars.x}%`,
-      `--dur:${vars.dur}s`, `--size:${vars.size}px`, `--color:${data.color}`, `--dark:${data.dark}`,
-      `--drift:${vars.drift}px`, `--rot:${vars.rot}deg`,
-      `--drift-25:${vars.drift25}px`, `--rot-25:${vars.rot25}deg`,
-      `--drift-50:${vars.drift50}px`, `--rot-50:${vars.rot50}deg`,
-      `--drift-75:${vars.drift75}px`, `--rot-75:${vars.rot75}deg`,
-      `--height-mult:${vars.heightMult}`, `--border-radius:${vars.borderRadius}`,
-      `--gradient-x:${vars.gradientX}`, `--gradient-y:${vars.gradientY}`,
-      `--highlight-top:${vars.highlightTop}`, `--highlight-left:${vars.highlightLeft}`,
-      `--highlight-w:${vars.highlightW}`, `--highlight-h:${vars.highlightH}`, `--highlight-rot:${vars.highlightRot}`,
-      `--shadow-x:${vars.shadowX}`, `--shadow-y:${vars.shadowY}`, `--outer-shadow:${vars.outerShadow}`,
-      `--knot-w:${vars.knotW}`, `--knot-h:${vars.knotH}`, `--knot-top:${vars.knotTop}`,
-      `--string-w:${vars.stringW}`, `--string-h:${vars.stringH}`, `--string-r:${vars.stringR}`,
-      `--emoji-size:${vars.emojiSize}`, `--hover-scale:${vars.hoverScale}`, `--hover-rot:${vars.hoverRot}`,
-      `--float-ease:${vars.floatEase}`, `--ease:${vars.floatEase}`,
-      `--burst-dur:${vars.burstDur}`, `--burst-scale:${vars.burstScale}`, `--burst-final:${vars.burstFinal}`,
-      `--ring-size:${vars.ringSize}`, `--ring-thickness:${vars.ringThickness}`
-    ].join(';');
-
-    balloon.innerHTML = `<div class="balloon-body"><span class="balloon-emoji">${data.emoji}</span></div><div class="balloon-knot"></div><div class="balloon-string"></div>`;
-
-    const popHandler = (e) => this.popBalloon(e, balloon, data, vars);
-    balloon.addEventListener('click', popHandler);
-    balloon.addEventListener('touchstart', popHandler, {passive: true});
+    const el = document.createElement('div');
+    el.className = 'balloon';
+    el.style.cssText = `
+      left:${vars.x}%;
+      --dur:${vars.dur}s;--size:${vars.size}px;--color:${data.color};--dark:${data.dark};
+      --drift:${vars.drift}px;--rot:${vars.rot}deg;--drift-25:${vars.drift25}px;--rot-25:${vars.rot25}deg;
+      --drift-50:${vars.drift50}px;--rot-50:${vars.rot50}deg;--drift-75:${vars.drift75}px;--rot-75:${vars.rot75}deg;
+      --height-mult:${vars.heightMult};--border-radius:${vars.borderRadius};--gradient-x:${vars.gradientX};--gradient-y:${vars.gradientY};
+      --highlight-top:${vars.highlightTop};--highlight-left:${vars.highlightLeft};--highlight-w:${vars.highlightW};--highlight-h:${vars.highlightH};--highlight-rot:${vars.highlightRot};
+      --shadow-x:${vars.shadowX};--shadow-y:${vars.shadowY};--outer-shadow:${vars.outerShadow};
+      --knot-w:${vars.knotW};--knot-h:${vars.knotH};--knot-top:${vars.knotTop};
+      --string-w:${vars.stringW};--string-h:${vars.stringH};--string-r:${vars.stringR};
+      --emoji-size:${vars.emojiSize};--hover-scale:${vars.hoverScale};--hover-rot:${vars.hoverRot};
+      --float-ease:${vars.floatEase};--ease:${vars.floatEase};
+      --burst-dur:${vars.burstDur};--burst-scale:${vars.burstScale};--burst-final:${vars.burstFinal};
+      --ring-size:${vars.ringSize};--ring-thickness:${vars.ringThickness};
+    `;
     
-    document.body.appendChild(balloon);
-    this.activeBalloons.push(balloon);
+    el.innerHTML = `<div class="balloon-body"><span class="balloon-emoji">${data.emoji}</span></div><div class="balloon-knot"></div><div class="balloon-string"></div>`;
 
-    balloon.addEventListener('animationend', () => {
-      this.removeBalloon(balloon);
-      this.spawnBalloon();
+    el.addEventListener('click', e => popBalloon(e, el, data, vars));
+    el.addEventListener('touchstart', e => popBalloon(e, el, data, vars), { passive: true });
+    document.body.appendChild(el);
+    activeBalloons.push(el);
+
+    el.addEventListener('animationend', () => {
+      el.remove();
+      activeBalloons = activeBalloons.filter(b => b !== el);
+      spawnBalloon();
     });
   }
 
-  removeBalloon(balloon) {
-    balloon.remove();
-    this.activeBalloons = this.activeBalloons.filter(b => b !== balloon);
+  for (let i = 0; i < MAX_BALLOONS; i++) {
+    setTimeout(spawnBalloon, i * 300 + seededRandom() * 200);
   }
 
-  createBurst(cx, cy, color) {
-    const burst = document.createElement('div');
-    burst.className = 'burst';
-    burst.style.cssText = `left:${cx}px;top:${cy}px;--c:${color}`;
-    burst.innerHTML = '<div class="burst-ring"></div>';
-    document.body.appendChild(burst);
-    burst.addEventListener('animationend', () => burst.remove());
-  }
-
-  createConfetti(cx, cy, vars) {
-    for (let i = 0; i < vars.confettiCount; i++) {
-      const confetti = document.createElement('div');
-      confetti.className = 'confetti-piece';
-      const angle = this.seededRandom() * 360;
-      const dist = 60 + this.seededRandom() * 160;
-      const dx = Math.cos(angle * Math.PI/180) * dist;
-      const dy = Math.sin(angle * Math.PI/180) * dist - 80;
-      
-      confetti.style.cssText = [
-        `left:${cx}px;top:${cy}px`,
-        `background:${['#ff6b6b','#ffd700','#a855f7','#38bdf8','#4ade80','#fb923c','#f472b6','#67e8f9'][Math.floor(this.seededRandom()*8)]}`,
-        `--cx:${dx}px;--cy:${dy}px`,
-        `--cf-dur:${0.7 + this.seededRandom()*0.8}s`,
-        `--cf-ease:cubic-bezier(${this.seededRandom()},${this.seededRandom()},${this.seededRandom()},1)`,
-        `--final-rot:${this.seededRandom()*1440}deg`,
-        `--final-scale:${0.2 + this.seededRandom()*0.4}`,
-        `--conf-w:${6 + this.seededRandom()*12}px`,
-        `--conf-h:${6 + this.seededRandom()*12}px`,
-        `--conf-r:${this.seededRandom()>0.5 ? '50%' : '3px'}`
-      ].join(';');
-      
-      document.body.appendChild(confetti);
-      setTimeout(() => confetti.remove(), 2000);
-    }
-  }
-
-  popBalloon(e, balloon, data, vars) {
+  function popBalloon(e, el, data, vars) {
     e.stopPropagation();
     e.preventDefault();
     
-    const rect = balloon.getBoundingClientRect();
+    const rect = el.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height * 0.4;
 
-    this.createBurst(cx, cy, data.color);
-    this.createConfetti(cx, cy, vars);
-    
-    this.removeBalloon(balloon);
-    this.showLightbox(data);
-    this.spawnBalloon();
+    const burst = document.createElement('div');
+    burst.className = 'burst';
+    burst.style.cssText = `left:${cx}px;top:${cy}px;--c:${data.color};`;
+    burst.innerHTML = `<div class="burst-ring"></div>`;
+    document.body.appendChild(burst);
+    burst.addEventListener('animationend', () => burst.remove());
+
+    for (let i = 0; i < vars.confettiCount; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti-piece';
+      const angle = seededRandom() * 360;
+      const dist = 60 + seededRandom() * 160;
+      const dx = Math.cos(angle * Math.PI/180) * dist;
+      const dy = Math.sin(angle * Math.PI/180) * dist - 80;
+      const color = CONFETTI_COLORS[Math.floor(seededRandom() * CONFETTI_COLORS.length)];
+      const confW = 6 + seededRandom() * 12;
+      const confH = 6 + seededRandom() * 12;
+      const finalRot = seededRandom() * 1440;
+      const finalScale = 0.2 + seededRandom() * 0.4;
+      
+      c.style.cssText = `
+        left:${cx}px;top:${cy}px;background:${color};
+        --cx:${dx}px;--cy:${dy}px;--cf-dur:${0.7 + seededRandom()*0.8}s;
+        --cf-ease:cubic-bezier(${seededRandom()},${seededRandom()},${seededRandom()},1);
+        --final-rot:${finalRot}deg;--final-scale:${finalScale};
+        --conf-w:${confW}px;--conf-h:${confH}px;--conf-r:${seededRandom()>0.5?'50%':'3px'};
+      `;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 2000);
+    }
+
+    el.style.animation = 'none';
+    el.remove();
+    activeBalloons = activeBalloons.filter(b => b !== el);
+
+    showLightbox(data);
+    spawnBalloon();
   }
 
-  initLightbox() {
-    this.lightbox = document.getElementById('lightbox');
-    this.lbImage = document.getElementById('lightbox-image');
-    this.lbTitle = document.getElementById('lightbox-title');
-    this.lbDesc = document.getElementById('lightbox-desc');
-    this.lbClose = document.getElementById('lightbox-close');
+  const lightbox = document.getElementById('lightbox');
+  const lbImage = document.getElementById('lightbox-image');
+  const lbTitle = document.getElementById('lightbox-title');
+  const lbDesc = document.getElementById('lightbox-desc');
+  const lbClose = document.getElementById('lightbox-close');
 
-    const closeLightbox = () => this.lightbox.classList.remove('active');
-    
-    this.lbClose.addEventListener('click', closeLightbox);
-    this.lbClose.addEventListener('touchstart', closeLightbox, {passive: true});
-    this.lightbox.addEventListener('click', e => e.target === this.lightbox && closeLightbox());
-    this.lightbox.addEventListener('touchstart', e => e.target === this.lightbox && closeLightbox(), {passive: true});
-    document.addEventListener('keydown', e => e.key === 'Escape' && closeLightbox());
-  }
-
-  showLightbox(data) {
+  function showLightbox(data) {
+    console.log('🖼️ Loading:', data.image);
     const img = new Image();
     img.onload = () => {
-      this.lbImage.src = data.image;
-      this.lightbox.classList.add('active');
+      lbImage.src = data.image;
+      lightbox.classList.add('active');
     };
     img.onerror = () => {
-      this.lbImage.src = 'https://via.placeholder.com/280x280/FF6B6B/FFFFFF?text=छवि+नहीं+मिली';
-      this.lightbox.classList.add('active');
+      lbImage.src = 'https://via.placeholder.com/280x280/FF6B6B/FFFFFF?text=छवि+नहीं+मिली';
+      lightbox.classList.add('active');
     };
     img.src = data.image;
     
-    this.lbTitle.textContent = data.title;
-    this.lbDesc.textContent = data.desc;
+    lbTitle.textContent = data.title;
+    lbDesc.textContent = data.desc;
+  }
+  
+  function closeLightbox() {
+    lightbox.classList.remove('active');
   }
 
-  init() {
-    this.createStars();
-    this.initLightbox();
-    
-    for (let i = 0; i < this.MAX_BALLOONS; i++) {
-      setTimeout(() => this.spawnBalloon(), i * 300 + this.seededRandom() * 200);
-    }
-  }
-}
-
-new BalloonGame();
+  lbClose.addEventListener('click', closeLightbox);
+  lbClose.addEventListener('touchstart', closeLightbox, { passive: true });
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  lightbox.addEventListener('touchstart', e => { if (e.target === lightbox) closeLightbox(); }, { passive: true });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 </script>
 </body>
 </html>
