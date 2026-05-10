@@ -303,7 +303,11 @@ const BALLOONS = [
   const CONFETTI_COLORS = ['#ff6b6b','#ffd700','#a855f7','#38bdf8','#4ade80','#fb923c','#f472b6','#67e8f9'];
 
   let activeBalloons = [];
-  const MAX_BALLOONS = 10; // Maximum 10 balloons on screen
+  const MAX_BALLOONS = 10;
+  
+  // 🔥 NEW: Better randomization system
+  let recentlyUsed = new Set();
+  let randomizationCounter = 0;
 
   // ── Stars ────────────────────────────────────────────────
   const starsEl = document.getElementById('stars');
@@ -315,12 +319,48 @@ const BALLOONS = [
     starsEl.appendChild(s);
   }
 
+  // 🔥 NEW: Smart random selection (no immediate repeats + weighted randomness)
+  function getRandomBalloon() {
+    const available = [];
+    
+    // Prioritize balloons not recently used
+    for (let i = 0; i < BALLOONS.length; i++) {
+      if (!recentlyUsed.has(i)) {
+        available.push(i);
+      }
+    }
+    
+    // If all balloons recently used, use any (but prefer less recent)
+    if (available.length === 0) {
+      for (let i = 0; i < BALLOONS.length; i++) {
+        available.push(i);
+      }
+    }
+    
+    // Fisher-Yates shuffle for true randomness
+    for (let i = available.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [available[i], available[j]] = [available[j], available[i]];
+    }
+    
+    const selectedIndex = available[0];
+    
+    // Track recently used (remove oldest after 8 uses)
+    recentlyUsed.add(selectedIndex);
+    randomizationCounter++;
+    if (randomizationCounter % 8 === 0) {
+      recentlyUsed.clear(); // Reset every 8 balloons for full cycle
+    }
+    
+    return BALLOONS[selectedIndex];
+  }
+
   // ── Spawn balloons ─────────────────────────────────
   function spawnBalloon() {
-    // Only spawn if we have less than 10 balloons
     if (activeBalloons.length >= MAX_BALLOONS) return;
 
-    const data = BALLOONS[Math.floor(Math.random() * BALLOONS.length)];
+    // 🔥 CHANGED: Use smart random selection instead of Math.random()
+    const data = getRandomBalloon();
     const size = 70 + Math.random() * 50;
     const dur  = 8 + Math.random() * 7;
     const x    = 5 + Math.random() * 88;
@@ -342,7 +382,6 @@ const BALLOONS = [
     el.addEventListener('animationend', () => {
       el.remove();
       activeBalloons = activeBalloons.filter(b => b !== el);
-      // Spawn new balloon when one finishes its animation
       spawnBalloon();
     });
   }
@@ -386,7 +425,6 @@ const BALLOONS = [
 
     showLightbox(data);
     
-    // Spawn new balloon immediately when one is popped (to maintain 10 total)
     spawnBalloon();
   }
 
@@ -401,7 +439,6 @@ const lbClose  = document.getElementById('lightbox-close');
 function showLightbox(data) {
   console.log('🖼️ Attempting to load:', data.image);
   
-  // Test image first
   const img = new Image();
   img.onload = () => {
     console.log('✅ Image LOADED OK!');
@@ -424,8 +461,8 @@ function closeLightbox() {
 }
 
 lbClose.addEventListener('click', closeLightbox);
-  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
 </script>
 </body>
