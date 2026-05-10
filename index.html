@@ -73,7 +73,7 @@
     to   { opacity: 0.9; transform: scale(1.2); }
   }
 
-  /* Balloon */
+  /* 🥚 EGG-SHAPED BALLOON */
   .balloon {
     position: absolute;
     bottom: -160px;
@@ -88,25 +88,36 @@
   .balloon-body {
     width: var(--size);
     height: calc(var(--size) * var(--height-mult));
-    border-radius: var(--border-radius);
+    /* 🥚 EGG SHAPE - Perfect oval/egg-like curve */
+    border-radius: 
+      var(--top-left-r) var(--top-right-r) var(--bottom-right-r) var(--bottom-left-r) / 
+      var(--top-left-v) var(--top-right-v) var(--bottom-right-v) var(--bottom-left-v);
     background: radial-gradient(circle at var(--gradient-x) var(--gradient-y), rgba(255,255,255,0.55) 0%, var(--color) 45%, var(--dark) 100%);
-    box-shadow: inset var(--shadow-x) var(--shadow-y) 20px rgba(0,0,0,0.25), 0 var(--outer-shadow) 30px rgba(0,0,0,0.3);
+    box-shadow: 
+      inset var(--shadow-x) var(--shadow-y) 20px rgba(0,0,0,0.25), 
+      0 var(--outer-shadow) 30px rgba(0,0,0,0.3),
+      /* Egg shine highlight */
+      0 0 30px rgba(255,255,255,0.3);
     position: relative;
     transition: transform 0.1s;
     touch-action: manipulation;
   }
-  .balloon-body::after {
+
+  .balloon-body::before {
+    /* Egg shine highlight */
     content: '';
     position: absolute;
     top: var(--highlight-top);
     left: var(--highlight-left);
     width: var(--highlight-w);
     height: var(--highlight-h);
-    background: rgba(255,255,255,0.45);
+    background: radial-gradient(circle, rgba(255,255,255,0.6) 0%, transparent 70%);
     border-radius: 50%;
     transform: rotate(var(--highlight-rot));
     pointer-events: none;
+    z-index: 2;
   }
+
   .balloon-knot {
     width: var(--knot-w);
     height: var(--knot-h);
@@ -115,6 +126,7 @@
     margin: 0 auto;
     position: relative;
     top: var(--knot-top);
+    z-index: 3;
   }
   .balloon-string {
     width: var(--string-w);
@@ -122,6 +134,7 @@
     background: rgba(255,255,255,0.35);
     margin: 0 auto;
     border-radius: var(--string-r);
+    z-index: 1;
   }
   .balloon-emoji {
     position: absolute;
@@ -131,6 +144,7 @@
     font-size: calc(var(--size) * var(--emoji-size));
     pointer-events: none;
     animation: emojiWobble 2s ease-in-out infinite;
+    z-index: 2;
   }
 
   @keyframes emojiWobble {
@@ -141,7 +155,7 @@
 
   .balloon:hover .balloon-body {
     transform: scale(var(--hover-scale)) rotate(var(--hover-rot));
-    filter: brightness(1.1);
+    filter: brightness(1.1) drop-shadow(0 10px 20px rgba(0,0,0,0.3));
   }
 
   @keyframes floatUp {
@@ -190,7 +204,7 @@
     100% { opacity: 0; transform: translate(var(--cx), var(--cy)) rotate(var(--final-rot)) scale(var(--final-scale)); }
   }
 
-  /* Image Lightbox - FIXED */
+  /* Image Lightbox */
   #lightbox {
     position: fixed;
     inset: 0;
@@ -365,7 +379,6 @@
   let activeBalloons = [];
   const MAX_BALLOONS = 10;
   
-  // 🎲 ULTRA-VARIABLE SYSTEM
   let recentlyUsed = new Set();
   let randomizationCounter = 0;
   let globalSeed = Date.now();
@@ -403,7 +416,21 @@
     return BALLOONS[selectedIndex];
   }
 
-  // ── Stars ────────────────────────────────────────────────
+  // 🥚 EGG SHAPE GENERATOR
+  function generateEggShapeVars() {
+    const tilt = (seededRandom() - 0.5) * 0.3; // Slight asymmetry for egg shape
+    return {
+      topLeftH: 75 + seededRandom() * 15 + tilt * 20,
+      topRightH: 80 + seededRandom() * 10 - tilt * 15,
+      bottomRightH: 45 + seededRandom() * 10 + tilt * 10,
+      bottomLeftH: 40 + seededRandom() * 12 - tilt * 8,
+      topLeftR: 60 + seededRandom() * 15,
+      topRightR: 65 + seededRandom() * 10,
+      bottomRightR: 55 + seededRandom() * 12,
+      bottomLeftR: 50 + seededRandom() * 15
+    };
+  }
+
   const starsEl = document.getElementById('stars');
   for (let i = 0; i < 80; i++) {
     const s = document.createElement('div');
@@ -414,6 +441,7 @@
   }
 
   function generateBalloonVars(data) {
+    const eggShape = generateEggShapeVars();
     const vars = {
       size: 55 + seededRandom() * 80,
       dur: 5 + seededRandom() * 12,
@@ -426,32 +454,40 @@
       rot75: (seededRandom() - 0.5) * 35,
       drift: (seededRandom() - 0.5) * 300,
       rot: (seededRandom() - 0.5) * 45,
-      heightMult: 1.1 + seededRandom() * 0.3,
-      borderRadius: `${55 + seededRandom()*10}% ${55 + seededRandom()*10}% ${40 + seededRandom()*10}% ${40 + seededRandom()*10}% / ${60 + seededRandom()*10}% ${60 + seededRandom()*10}% ${35 + seededRandom()*10}% ${35 + seededRandom()*10}%`,
-      gradientX: 30 + seededRandom() * 20 + '%',
-      gradientY: 30 + seededRandom() * 20 + '%',
-      highlightTop: `${15 + seededRandom()*10}%`,
-      highlightLeft: `${20 + seededRandom()*15}%`,
-      highlightW: `${20 + seededRandom()*10}%`,
-      highlightH: `${25 + seededRandom()*15}%`,
-      highlightRot: `${-35 + seededRandom()*10}deg`,
-      shadowX: `-${8 + seededRandom()*5}px`,
-      shadowY: `-${10 + seededRandom()*5}px`,
-      outerShadow: `${5 + seededRandom()*10}px`,
-      knotW: `${10 + seededRandom()*6}px`,
-      knotH: `${12 + seededRandom()*6}px`,
-      knotTop: `${-2 + seededRandom()*3}px`,
-      stringW: `${1.5 + seededRandom()}px`,
-      stringH: `${60 + seededRandom()*80}px`,
-      stringR: `${1 + seededRandom()}px`,
-      emojiSize: 0.35 + seededRandom() * 0.15,
-      hoverScale: 1.05 + seededRandom() * 0.1,
-      hoverRot: `${-5 + seededRandom()*4}deg`,
+      heightMult: 1.25 + seededRandom() * 0.4, // Taller for egg shape
+      // 🥚 EGG SHAPE CSS Variables
+      topLeftR: `${eggShape.topLeftR}%`,
+      topRightR: `${eggShape.topRightR}%`,
+      bottomRightR: `${eggShape.bottomRightR}%`,
+      bottomLeftR: `${eggShape.bottomLeftR}%`,
+      topLeftVH: `${eggShape.topLeftH}%`,
+      topRightVH: `${eggShape.topRightH}%`,
+      bottomRightVH: `${eggShape.bottomRightH}%`,
+      bottomLeftVH: `${eggShape.bottomLeftH}%`,
+      gradientX: 35 + seededRandom() * 15 + '%',
+      gradientY: 25 + seededRandom() * 15 + '%',
+      highlightTop: `${10 + seededRandom()*8}%`,
+      highlightLeft: `${15 + seededRandom()*12}%`,
+      highlightW: `${25 + seededRandom()*12}%`,
+      highlightH: `${30 + seededRandom()*15}%`,
+      highlightRot: `${-25 + seededRandom()*15}deg`,
+      shadowX: `-${10 + seededRandom()*6}px`,
+      shadowY: `-${12 + seededRandom()*6}px`,
+      outerShadow: `${6 + seededRandom()*12}px`,
+      knotW: `${12 + seededRandom()*8}px`,
+      knotH: `${14 + seededRandom()*8}px`,
+      knotTop: `${-3 + seededRandom()*4}px`,
+      stringW: `${1.8 + seededRandom()}px`,
+      stringH: `${70 + seededRandom()*90}px`,
+      stringR: `${1.2 + seededRandom()}px`,
+      emojiSize: 0.32 + seededRandom() * 0.12,
+      hoverScale: 1.08 + seededRandom() * 0.08,
+      hoverRot: `${-6 + seededRandom()*5}deg`,
       burstDur: `${0.5 + seededRandom()*0.4}s`,
-      burstScale: 1.3 + seededRandom() * 0.4,
-      burstFinal: 2.0 + seededRandom() * 0.6,
-      ringSize: `${70 + seededRandom()*60}px`,
-      ringThickness: `${4 + seededRandom()*6}px`,
+      burstScale: 1.4 + seededRandom() * 0.5,
+      burstFinal: 2.2 + seededRandom() * 0.6,
+      ringSize: `${75 + seededRandom()*65}px`,
+      ringThickness: `${5 + seededRandom()*7}px`,
       floatEase: ['linear', 'ease-in', 'ease-out', 'ease-in-out', 'cubic-bezier(0.25,0.1,0.25,1)'][Math.floor(seededRandom()*5)],
       confettiCount: 15 + Math.floor(seededRandom() * 15)
     };
@@ -471,7 +507,10 @@
       --dur:${vars.dur}s;--size:${vars.size}px;--color:${data.color};--dark:${data.dark};
       --drift:${vars.drift}px;--rot:${vars.rot}deg;--drift-25:${vars.drift25}px;--rot-25:${vars.rot25}deg;
       --drift-50:${vars.drift50}px;--rot-50:${vars.rot50}deg;--drift-75:${vars.drift75}px;--rot-75:${vars.rot75}deg;
-      --height-mult:${vars.heightMult};--border-radius:${vars.borderRadius};--gradient-x:${vars.gradientX};--gradient-y:${vars.gradientY};
+      --height-mult:${vars.heightMult};
+      --top-left-r:${vars.topLeftR};--top-right-r:${vars.topRightR};--bottom-right-r:${vars.bottomRightR};--bottom-left-r:${vars.bottomLeftR};
+      --top-left-v:${vars.topLeftVH};--top-right-v:${vars.topRightVH};--bottom-right-v:${vars.bottomRightVH};--bottom-left-v:${vars.bottomLeftVH};
+      --gradient-x:${vars.gradientX};--gradient-y:${vars.gradientY};
       --highlight-top:${vars.highlightTop};--highlight-left:${vars.highlightLeft};--highlight-w:${vars.highlightW};--highlight-h:${vars.highlightH};--highlight-rot:${vars.highlightRot};
       --shadow-x:${vars.shadowX};--shadow-y:${vars.shadowY};--outer-shadow:${vars.outerShadow};
       --knot-w:${vars.knotW};--knot-h:${vars.knotH};--knot-top:${vars.knotTop};
