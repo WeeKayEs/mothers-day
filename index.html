@@ -73,7 +73,7 @@
     to   { opacity: 0.9; transform: scale(1.2); }
   }
 
-  /* Balloon - SPHERICAL WITH SLIGHT OVAL SHAPE */
+  /* Balloon - FIXED FOR MOBILE */
   .balloon {
     position: absolute;
     bottom: -160px;
@@ -88,13 +88,11 @@
   .balloon-body {
     width: var(--size);
     height: calc(var(--size) * var(--height-mult));
-    /* SPHERICAL WITH SLIGHT OVAL - More realistic balloon shape */
     border-radius: var(--border-radius);
     background: radial-gradient(circle at var(--gradient-x) var(--gradient-y), rgba(255,255,255,0.55) 0%, var(--color) 45%, var(--dark) 100%);
     box-shadow: 
       inset var(--shadow-x) var(--shadow-y) 20px rgba(0,0,0,0.25), 
       0 var(--outer-shadow) 30px rgba(0,0,0,0.3),
-      /* Additional spherical depth */
       0 0 40px rgba(0,0,0,0.2);
     position: relative;
     transition: transform 0.1s;
@@ -199,7 +197,7 @@
     100% { opacity: 0; transform: translate(var(--cx), var(--cy)) rotate(var(--final-rot)) scale(var(--final-scale)); }
   }
 
-  /* Image Lightbox - FIXED */
+  /* Image Lightbox - FIXED FOR MOBILE */
   #lightbox {
     position: fixed;
     inset: 0;
@@ -212,6 +210,7 @@
     pointer-events: none;
     transition: opacity 0.4s;
     backdrop-filter: blur(12px);
+    /* FIXED: Block all interactions with underlying elements */
     touch-action: none;
   }
 
@@ -373,6 +372,7 @@
 
   let activeBalloons = [];
   const MAX_BALLOONS = 10;
+  let lightboxActive = false; // NEW: Track lightbox state
   
   // 🎲 ULTRA-VARIABLE SYSTEM
   let recentlyUsed = new Set();
@@ -423,7 +423,6 @@
   }
 
   function generateBalloonVars(data) {
-    // More spherical height multiplier (1.0-1.15 for slight oval)
     const heightMult = 1.0 + seededRandom() * 0.15;
     
     const vars = {
@@ -439,7 +438,6 @@
       drift: (seededRandom() - 0.5) * 300,
       rot: (seededRandom() - 0.5) * 45,
       heightMult: heightMult,
-      // SPHERICAL OVAL SHAPE - Much rounder balloon
       borderRadius: `68% 72% 75% 65% / 75% 70% 80% 65%`,
       gradientX: 30 + seededRandom() * 20 + '%',
       gradientY: 30 + seededRandom() * 20 + '%',
@@ -497,8 +495,15 @@
     
     el.innerHTML = `<div class="balloon-body"><span class="balloon-emoji">${data.emoji}</span></div><div class="balloon-knot"></div><div class="balloon-string"></div>`;
 
-    el.addEventListener('click', e => popBalloon(e, el, data, vars));
-    el.addEventListener('touchstart', e => popBalloon(e, el, data, vars), { passive: true });
+    // FIXED: Prevent balloon popping when lightbox is active
+    el.addEventListener('click', e => {
+      if (!lightboxActive) popBalloon(e, el, data, vars);
+    });
+    
+    el.addEventListener('touchstart', e => {
+      if (!lightboxActive) popBalloon(e, el, data, vars);
+    }, { passive: true });
+    
     document.body.appendChild(el);
     activeBalloons.push(el);
 
@@ -514,6 +519,9 @@
   }
 
   function popBalloon(e, el, data, vars) {
+    // EXTRA SAFETY: Double-check lightbox isn't active
+    if (lightboxActive) return;
+    
     e.stopPropagation();
     e.preventDefault();
     
@@ -567,6 +575,7 @@
   const lbClose = document.getElementById('lightbox-close');
 
   function showLightbox(data) {
+    lightboxActive = true; // NEW: Set flag
     console.log('🖼️ Loading:', data.image);
     const img = new Image();
     img.onload = () => {
@@ -584,14 +593,25 @@
   }
   
   function closeLightbox() {
+    lightboxActive = false; // NEW: Clear flag
     lightbox.classList.remove('active');
   }
 
   lbClose.addEventListener('click', closeLightbox);
   lbClose.addEventListener('touchstart', closeLightbox, { passive: true });
-  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-  lightbox.addEventListener('touchstart', e => { if (e.target === lightbox) closeLightbox(); }, { passive: true });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  
+  // FIXED: Enhanced lightbox background click handler
+  lightbox.addEventListener('click', e => { 
+    if (e.target === lightbox) closeLightbox(); 
+  });
+  lightbox.addEventListener('touchstart', e => { 
+    if (e.target === lightbox) closeLightbox(); 
+    e.stopPropagation(); // EXTRA SAFETY
+  }, { passive: true });
+  
+  document.addEventListener('keydown', e => { 
+    if (e.key === 'Escape') closeLightbox(); 
+  });
 </script>
 </body>
 </html>
